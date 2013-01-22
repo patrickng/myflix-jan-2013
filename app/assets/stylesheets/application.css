@@ -19,6 +19,7 @@
  *= require queue
  *= require genre
  *= require people
+ *= require invite
  *= require user
  *= require public_pages
  *= require account_and_billing
