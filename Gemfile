@@ -14,6 +14,7 @@ group :development do
   gem 'sqlite3'
   gem 'pry'
   gem 'pry-nav'
+  gem 'thin'
 end
 
 group :production do

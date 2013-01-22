@@ -1,0 +1,11 @@
+%article.video
+  .container
+    .row
+      .video_large_cover.span7.offset1
+        = image_tag(@video.large_cover_url)
+      .video_info.span3
+        %h3= @video.title
+        %p= @video.description
+        .actions
+          %a.btn.btn-primary(href="") Watch Now
+          %a.btn(href="") + My Queue
