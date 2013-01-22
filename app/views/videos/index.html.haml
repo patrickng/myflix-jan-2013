@@ -1,4 +1,8 @@
-%section.ui-index
-  %ul
-    - @videos.each do |video|
-      %li= link_to image_tag(video.small_cover_url), url_for(video)
+%article.video-category
+  %header
+    - @categories.each do |category|
+      %h3= category.name
+      .videos.row
+        - category.videos.each do |video|
+          .video.span2
+            = link_to image_tag(video.small_cover_url), url_for(video)

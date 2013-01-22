@@ -11,11 +11,18 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130122072908) do
+ActiveRecord::Schema.define(:version => 20130122190407) do
 
   create_table "categories", :force => true do |t|
     t.string   "name"
     t.text     "description"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
+
+  create_table "categorizations", :force => true do |t|
+    t.integer  "video_id"
+    t.integer  "category_id"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
   end
@@ -27,7 +34,6 @@ ActiveRecord::Schema.define(:version => 20130122072908) do
     t.string   "large_cover_url"
     t.datetime "created_at",      :null => false
     t.datetime "updated_at",      :null => false
-    t.integer  "category_id"
   end
 
 end

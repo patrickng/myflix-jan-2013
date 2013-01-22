@@ -1,5 +1,6 @@
 class Category < ActiveRecord::Base
   attr_accessible :description, :name
 
-  has_and_belongs_to_many :videos
+  has_many :categorizations
+  has_many :videos, through: :categorizations
 end
