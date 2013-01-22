@@ -12,15 +12,5 @@
  *= require bootstrap
  *= require bootstrap-responsive
  *= require whitespace-reset
- *= require general
- *= require header
- *= require home
- *= require videos
- *= require queue
- *= require genre
- *= require people
- *= require invite
- *= require user
- *= require public_pages
- *= require account_and_billing
+ *= require_tree .
 */
