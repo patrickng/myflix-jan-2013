@@ -10,7 +10,7 @@ Category.delete_all
 category1 = Category.create(name: "Uncategorized", description: "Uncategorized shows")
 category2 = Category.create(name: "TV Comedies", description: "Funny and humorous TV shows")
 category3 = Category.create(name: "TV Dramas", description: "Dramatic TV shows")
-category4 =Category.create(name: "Reality TV", description: "TV shows based on real stories and life")
+category4 = Category.create(name: "Reality TV", description: "TV shows based on real stories and life")
 
 Video.delete_all
 video1 = Video.create(title: "Monk", description: "Hampered by an odd variety of phobias and obsessive-compulsive tendencies that surfaced after his wife's murder, brilliant San Francisco police detective Adrian Monk (Tony Shalhoub) quits the force and begins working as a consultant on the SFPD's toughest cases. Monk's former superior, Capt. Stottlemeyer (Ted Levine), grudgingly calls on him for help but refuses to let the eccentric ex-cop rejoin the force.", small_cover_url: "/tmp/monk.jpg", large_cover_url: "/tmp/monk_large.jpg")
