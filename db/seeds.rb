@@ -16,9 +16,10 @@ Video.delete_all
 video1 = Video.create(title: "Monk", description: "Hampered by an odd variety of phobias and obsessive-compulsive tendencies that surfaced after his wife's murder, brilliant San Francisco police detective Adrian Monk (Tony Shalhoub) quits the force and begins working as a consultant on the SFPD's toughest cases. Monk's former superior, Capt. Stottlemeyer (Ted Levine), grudgingly calls on him for help but refuses to let the eccentric ex-cop rejoin the force.", small_cover_url: "/tmp/monk.jpg", large_cover_url: "/tmp/monk_large.jpg")
 video2 = Video.create(title: "Family Guy", description: "In Seth MacFarlane's no-holds-barred animated show, buffoonish Peter Griffin and his dysfunctional family experience wacky misadventures, from kidnapping the Pope to being forced to put up scythe-bearing Death for a few days after he breaks his leg.", small_cover_url: "/tmp/family_guy.jpg", large_cover_url: "/tmp/family_guy_large.jpg")
 video3 = Video.create(title: "Futurama", description: "Pizza boy Philip J. Fry awakens in the 31st century after 1,000 years of cryogenic preservation in this animated series. After he gets a job at an interplanetary delivery service, Fry embarks on ridiculous escapades to make sense of his predicament.", small_cover_url: "/tmp/futurama.jpg", large_cover_url: "/tmp/futurama_large.jpg" )
+video4 = Video.create(title: "The Walking Dead", description: "In the wake of a zombie apocalypse that desolates the world as we know it, a group of survivors led by police officer Rick Grimes holds on to the hope of humanity by banding together to wage a never-ending fight for their own survival.", small_cover_url: "/tmp/walking_dead.jpg", large_cover_url: "/tmp/walking_dead_large.jpg" )
 
 Categorization.delete_all
 Categorization.create(video_id: video1.id, category_id: category4.id)
 Categorization.create(video_id: video2.id, category_id: category2.id)
-Categorization.create(video_id: video2.id, category_id: category3.id)
+Categorization.create(video_id: video4.id, category_id: category3.id)
 Categorization.create(video_id: video3.id, category_id: category2.id)
