@@ -4,7 +4,7 @@ class Category < ActiveRecord::Base
   has_many :categorizations
   has_many :videos, through: :categorizations
 
-  def self.recent_videos
+  def recent_videos
     videos.order('created_at DESC').limit(6)
   end
 end

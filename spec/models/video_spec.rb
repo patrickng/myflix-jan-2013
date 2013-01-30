@@ -21,7 +21,7 @@ describe Video do
     it "should return array with items when search has results" do
       video1 = Video.create(title: "The Walking Dead", description: "A group of survivors try to survive the walkers.")
       video2 = Video.create(title: "The Crawling Dead", description: "A group of survivors try to survive the crawlers.")
-      Video.search_by_title("The Walking Dead").should include(video1)
+      Video.search_by_title("dead").should include(video1, video2)
     end
   end
 
