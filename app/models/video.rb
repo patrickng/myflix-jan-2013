@@ -6,6 +6,10 @@ class Video < ActiveRecord::Base
   validates :description, presence: "true"
 
   def self.search_by_title(title)
-    where("title LIKE ?", "%#{title}%")
+    if title.blank?
+      []
+    else
+      where("title LIKE ?", "%#{title}%")
+    end
   end
 end
