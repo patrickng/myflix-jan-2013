@@ -13,7 +13,6 @@ describe Video do
   end
 
   describe "search results" do
-
     before(:each) do
       @video1 = Video.create(title: "The Walking Dead", description: "A group of survivors try to survive the walkers.")
       @video2 = Video.create(title: "The Crawling Dead", description: "A group of survivors try to survive the crawlers.")
@@ -31,5 +30,4 @@ describe Video do
       Video.search_by_title("").should == []
     end
   end
-
 end
