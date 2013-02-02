@@ -2,8 +2,9 @@ source 'https://rubygems.org'
 
 gem 'rails', '3.2.11'
 gem 'haml-rails'
+gem 'bcrypt-ruby'
 gem 'bootstrap-sass'
-gem 'better_errors'
+gem 'bootstrap_form'
 
 group :assets do
   gem 'sass-rails',   '~> 3.2.3'
@@ -21,6 +22,7 @@ group :development do
   gem 'pry'
   gem 'pry-nav'
   gem 'thin'
+  gem 'better_errors'
 end
 
 group :production do
