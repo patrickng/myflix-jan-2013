@@ -1,3 +1,5 @@
 class User < ActiveRecord::Base
-  attr_accessible :email_address, :full_name, :password
+  validates :full_name, presence: true
+  validates :email_address, presence: true
+  validates :password, presence: true
 end
