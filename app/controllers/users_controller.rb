@@ -5,7 +5,6 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new(params[:user])
-    @user.password_confirmation = nil
     
     if @user.save
       redirect_to root_path
