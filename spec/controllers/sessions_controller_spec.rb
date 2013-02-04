@@ -43,7 +43,7 @@ describe SessionsController do
     end
 
     it "empties the session when user logs out" do
-      session[:user].should == nil
+      session[:user_id].should == nil
     end
 
     it "redirects to root path when user logs out" do
