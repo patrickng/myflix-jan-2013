@@ -13,19 +13,25 @@ describe SessionsController do
       @user = User.create(email_address: "test@test.com", full_name: "test tester", password: "test")
     end
 
-    it "sets the session user" do
-      post :create, { email_address: "test@test.com", password: "test" }
-      session[:user].should == @user
+    context "successful login" do
+      before(:each) do
+        post :create, { email_address: "test@test.com", password: "test" }
+      end
+
+      it "sets the session user" do
+        session[:user].should == @user
+      end
+
+      it "redirects to home path" do
+        response.should redirect_to home_path
+      end
     end
 
-    it "redirects to home path when login is successful" do
-      post :create, { email_address: "test@test.com", password: "test" }
-      response.should redirect_to home_path
-    end
-
-    it "redirects to login path when login is unsuccessful" do
-      post :create, { email_address: "test@test.com", password: "testing" }
-      response.should redirect_to login_path
+    context "unsuccessful login" do
+      it "redirects to login path" do
+        post :create, { email_address: "test@test.com", password: "testing" }
+        response.should redirect_to login_path
+      end
     end
   end
 
