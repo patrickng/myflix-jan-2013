@@ -19,7 +19,7 @@ describe SessionsController do
       end
 
       it "sets the session user" do
-        session[:user].should == @user
+        session[:user_id].should == @user.id
       end
 
       it "redirects to home path" do
