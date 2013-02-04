@@ -1,10 +1,16 @@
 require 'spec_helper'
 
 describe VideosController do
+
+  before(:each) do
+    user = User.create(email_address: "test@test.com", full_name: "test tester", password: "test")
+    session[:user] = user
+  end
+
   describe "GET index" do
     it "sets the @categories variable" do
-      comedy = Category.create(name: "comedy")
-      drama = Category.create(name: "drama")
+      comedy = Category.create(name: "comedy", description: "comedy genre")
+      drama = Category.create(name: "drama", description: "drama genre")
 
       get :index
       assigns(:categories).should == [comedy, drama]
