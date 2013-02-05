@@ -13,6 +13,11 @@ describe Category do
     it { should have_many(:videos).through(:categorizations) }
   end
 
+  describe "validations" do
+    it { should validate_presence_of(:description) }
+    it { should validate_presence_of(:name) }
+  end
+
   describe "recent videos" do
     it "should display 6 most recent videos in reverse chronological order" do
 

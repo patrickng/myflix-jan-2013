@@ -23,3 +23,10 @@ Categorization.create(video_id: video1.id, category_id: category4.id)
 Categorization.create(video_id: video2.id, category_id: category2.id)
 Categorization.create(video_id: video4.id, category_id: category3.id)
 Categorization.create(video_id: video3.id, category_id: category2.id)
+
+User.delete_all
+User.create(full_name: "Patrick Example", email_address: "patrick@example.me", password: "test88")
+User.create(full_name: "Jason Example", email_address: "jason@example.me", password: "hunter2")
+User.create(full_name: "Vicky Example", email_address: "vicky@example.me", password: "shopping531")
+User.create(full_name: "Fanny Example", email_address: "fanny@example.me", password: "pretty42")
+User.create(full_name: "Michael Example", email_address: "michael@example.me", password: "apple69")
