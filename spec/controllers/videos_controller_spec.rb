@@ -25,6 +25,8 @@ describe VideosController do
   describe "GET show" do
     before(:each) do
       @video = Video.create(title: "Cop Out", description: "A comedy movie")
+      @review1 = Review.create(user_id: session[:user_id], video_id: @video.id, max_rating: 5, rating: 5, review: "This movie was a great movie!")
+      @review2 = Review.create(user_id: session[:user_id], video_id: @video.id, max_rating: 5, rating: 3, review: "Family Guy's dry humor and flashback scenes are hilarious!")
       get :show, id: @video.id
     end
 
@@ -34,6 +36,14 @@ describe VideosController do
 
     it "renders the video template" do
       response.should render_template :show
+    end
+
+    it "displays reviews in reverse chronological order" do
+      Video.first.reviews.should include(@review2, @review1)
+    end
+
+    it "displays average rating" do
+      Video.first.reviews.average(:rating).should == 4
     end
   end
 

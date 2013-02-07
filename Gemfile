@@ -23,6 +23,8 @@ group :development do
   gem 'pry-nav'
   gem 'thin'
   gem 'better_errors'
+  gem 'fabrication'
+  gem 'faker'
 end
 
 group :production do

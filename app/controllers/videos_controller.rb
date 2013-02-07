@@ -7,6 +7,8 @@ class VideosController < ApplicationController
 
   def show
     @video = Video.find(params[:id])
+    @reviews = Video.find(params[:id]).reviews.order('created_at DESC')
+    @average_rating = Video.find(params[:id]).reviews.average(:rating)
   end
 
   def search

@@ -1,10 +1,10 @@
 require 'spec_helper'
 
 describe Video do
-
   describe "associations" do
     it { should have_many(:categories) }
     it { should have_many(:categories).through(:categorizations) }
+    it { should have_many(:reviews) }
   end
 
   describe "validations" do

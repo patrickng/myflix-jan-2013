@@ -1,9 +1,10 @@
 class Video < ActiveRecord::Base
-  has_many :categorizations
-  has_many :categories, through: :categorizations
-
   validates :title, presence: "true"
   validates :description, presence: "true"
+
+  has_many :categorizations
+  has_many :categories, through: :categorizations
+  has_many :reviews
 
   def self.search_by_title(title)
     if title.blank?
