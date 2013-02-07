@@ -15,15 +15,19 @@
 %section.reviews.container
   .row
     .span10.offset1
-      = bootstrap_form_for([@video, @review], html: { class: 'form-vertical' }) do |f|
+      %form
         %fieldset
           %label Rate this video
-          = f.select :rating, options_for_select([['5 Stars', 5], ['4 Stars', 4], ['3 Stars', 3], ['2 Stars', 2], ['1 Star', 1]] )
-        %fieldset
-          = f.alert_message "Please fix the errors below."
-          = f.text_area :review, label: 'Write Review', class: 'span6', rows: 6
+          %select(name="")
+            %option(value="5") 5 Stars
+            %option(value="4") 4 Stars
+            %option(value="3") 3 Stars
+            %option(value="2") 2 Stars
+            %option(value="1") 1 Star
+          %label Write Review
+          %textarea.span6(name="" rows="6")
         %fieldset.actions.clearfix
-          = f.secondary 'Submit'
+          %input(type="submit" value="Submit" class="btn")
           %a(href="") Cancel
       %header
         %h3=raw "User Reviews (#{@video.reviews.count})"
