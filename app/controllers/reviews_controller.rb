@@ -5,7 +5,7 @@ class ReviewsController < ApplicationController
     @video = Video.find(params[:video_id])
     @review = @video.reviews.build(params[:review])
     @review.user = current_user
-    if @comment.save
+    if @review.save
       redirect_to video_path(@video)
     else
       render "videos/show"
