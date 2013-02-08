@@ -23,12 +23,8 @@
                 %td
                   = button_to "Play", nil, class: "btn"
                 %td
-                  %select(name="")
-                    %option(value="5") 5 Stars
-                    %option(value="4") 4 Stars
-                    %option(value="3") 3 Stars
-                    %option(value="2") 2 Stars
-                    %option(value="1") 1 Star
+                  = form_for([item.video, item.video.reviews.new], html: { class: 'form-vertical' }) do |f|
+                    = f.select :rating, options_for_select([['5 Stars', 5], ['4 Stars', 4], ['3 Stars', 3], ['2 Stars', 2], ['1 Star', 1]] ), {}, { onChange: 'this.form.submit();' }
                 %td
                   - item.video.categories.each do |category|
                     = link_to category.name, category_path(category)
