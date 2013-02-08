@@ -5,6 +5,8 @@ class Video < ActiveRecord::Base
   has_many :categorizations
   has_many :categories, through: :categorizations
   has_many :reviews
+  has_many :instant_queue
+  has_many :queue_items
 
   def self.search_by_title(title)
     if title.blank?

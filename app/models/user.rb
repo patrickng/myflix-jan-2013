@@ -6,4 +6,6 @@ class User < ActiveRecord::Base
   validates :password, presence: true
 
   has_many :reviews
+  has_many :instant_queue
+  has_many :queue_items
 end

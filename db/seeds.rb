@@ -37,3 +37,9 @@ Review.create(user_id: user2.id, video_id: video2.id, rating: 4, max_rating: 5, 
 Review.create(user_id: user3.id, video_id: video3.id, rating: 3, max_rating: 5, review: "If you like mildly amusing shows, this is it.")
 Review.create(user_id: user4.id, video_id: video4.id, rating: 2, max_rating: 5, review: "This show is too unrealistic.")
 Review.create(user_id: user5.id, video_id: video1.id, rating: 1, max_rating: 5, review: "This movie was terrible. Do not watch!")
+
+QueueItem.delete_all
+QueueItem.create(user_id: user1.id, video_id: video2.id)
+QueueItem.create(user_id: user1.id, video_id: video3.id)
+QueueItem.create(user_id: user2.id, video_id: video3.id)
+QueueItem.create(user_id: user2.id, video_id: video3.id)

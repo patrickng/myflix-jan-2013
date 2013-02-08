@@ -9,6 +9,7 @@ Myflix::Application.routes.draw do
   root to: 'static#index'
 
   resources :users, only: [:create]
+  resources :categories, only: [:index, :show]
 
   resources :videos, only: [:index, :show] do
     collection do
@@ -16,5 +17,8 @@ Myflix::Application.routes.draw do
     end
     resources :reviews, only: [:create]
   end
+
+  get 'my_queue', to: 'queue_items#index'
+  resources :queue_items, only: [:index, :new, :create, :destroy]
 
 end

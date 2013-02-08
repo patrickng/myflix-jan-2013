@@ -27,20 +27,11 @@ ActiveRecord::Schema.define(:version => 20130207231042) do
     t.datetime "updated_at",  :null => false
   end
 
-  create_table "instant_queues", :force => true do |t|
+  create_table "queue_items", :force => true do |t|
     t.integer  "user_id"
     t.integer  "video_id"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
-  end
-
-  create_table "queue_items", :force => true do |t|
-    t.string   "video_title"
-    t.integer  "video_rating"
-    t.string   "category"
-    t.integer  "instant_queue_id"
-    t.datetime "created_at",       :null => false
-    t.datetime "updated_at",       :null => false
   end
 
   create_table "reviews", :force => true do |t|
