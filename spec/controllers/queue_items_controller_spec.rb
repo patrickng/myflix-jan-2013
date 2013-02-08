@@ -32,4 +32,16 @@ describe QueueItemsController do
       QueueItem.find_all_by_user_id(session[:user_id]).should_not include(queue_item2)
     end
   end
+
+  describe "POST create" do
+    it "should add movie to queue" do
+      user = User.create(email_address: "test@test.com", full_name: "test tester", password: "test")
+      video = Video.create(title: "Cop Out", description: "A comedy movie")
+      session[:user_id] = user.id
+      queue_item = QueueItem.create(user_id: session[:user_id], video_id: video.id)
+
+      post :create, { video_id: 1, user_id: 1 }
+      QueueItem.all.count.should == 2
+    end
+  end
 end
