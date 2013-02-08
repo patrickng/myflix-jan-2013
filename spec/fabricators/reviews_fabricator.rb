@@ -1,7 +1,7 @@
 Fabricator(:review) do
-  rating { sequence(:rating, 1) }
+  rating { rand(1..5) }
   max_rating { 5 }
-  review { "This is a review." }
+  review { Faker::Lorem.words(30) }
   user
   video
 end

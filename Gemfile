@@ -15,6 +15,8 @@ end
 group :test, :development do
   gem 'rspec-rails'
   gem 'shoulda-matchers'
+  gem 'fabrication'
+  gem 'faker'
 end
 
 group :development do
@@ -23,8 +25,6 @@ group :development do
   gem 'pry-nav'
   gem 'thin'
   gem 'better_errors'
-  gem 'fabrication'
-  gem 'faker'
 end
 
 group :production do

@@ -3,14 +3,14 @@ require 'spec_helper'
 describe VideosController do
 
   before(:each) do
-    user = User.create(email_address: "test@test.com", full_name: "test tester", password: "test")
+    user = Fabricate(:user)
     session[:user_id] = user.id
   end
 
   describe "GET index" do
     it "sets the @categories variable" do
-      comedy = Category.create(name: "comedy", description: "comedy genre")
-      drama = Category.create(name: "drama", description: "drama genre")
+      comedy = Fabricate(:category)
+      drama = Fabricate(:category)
 
       get :index
       assigns(:categories).should == [comedy, drama]
@@ -23,27 +23,27 @@ describe VideosController do
   end
 
   describe "GET show" do
+    let(:video) { video = Fabricate(:video) }
     before(:each) do
-      @video = Video.create(title: "Cop Out", description: "A comedy movie")
-      @review1 = Review.create(user_id: session[:user_id], video_id: @video.id, max_rating: 5, rating: 5, review: "This movie was a great movie!")
-      @review2 = Review.create(user_id: session[:user_id], video_id: @video.id, max_rating: 5, rating: 3, review: "Family Guy's dry humor and flashback scenes are hilarious!")
-      get :show, id: @video.id
+      @review1 = Fabricate(:review, video: video)
+      @review2 = Fabricate(:review, video: video)
+      get :show, id: video.id
     end
 
     it "assigns the requested video to @video" do
-      assigns(:video).should eq(@video)
+      assigns(:video).should == video
     end
 
-    it "renders the video template" do
+    it "renders the video show template" do
       response.should render_template :show
     end
 
     it "displays reviews in reverse chronological order" do
-      Video.first.reviews.should include(@review2, @review1)
+      assigns(:reviews).should include(@review2, @review1)
     end
 
     it "displays average rating" do
-      Video.first.reviews.average(:rating).should == 4
+      assigns(:reviews).average(:rating).to_s.should == ((@review2.rating + @review1.rating) / 2.0).to_s
     end
   end
 
