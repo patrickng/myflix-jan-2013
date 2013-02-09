@@ -14,8 +14,8 @@ describe Video do
 
   describe "search results" do
     before(:each) do
-      @video1 = Video.create(title: "The Walking Dead", description: "A group of survivors try to survive the walkers.")
-      @video2 = Video.create(title: "The Crawling Dead", description: "A group of survivors try to survive the crawlers.")
+      @video1 = Fabricate(:video, title: "The Walking Dead")
+      @video2 = Fabricate(:video, title: "The Crawling Dead")
     end
 
     it "should return empty array when search has no results" do
@@ -28,6 +28,19 @@ describe Video do
 
     it "should return empty array when there is no search input" do
       Video.search_by_title("").should == []
+    end
+  end
+
+  describe "in the queue?" do
+    let(:video) { Fabricate(:video) }
+    let(:user) { Fabricate(:user) }
+    it "should return false if video is not in queue" do
+      video.in_queue?(user).should be_false
+    end
+
+    it "should return true if video is in queue" do
+      user.queue_items.create(video: video)
+      video.in_queue?(user).should be_true
     end
   end
 end
