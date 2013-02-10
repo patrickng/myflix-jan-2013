@@ -30,17 +30,4 @@ describe Video do
       Video.search_by_title("").should == []
     end
   end
-
-  describe "in the queue?" do
-    let(:video) { Fabricate(:video) }
-    let(:user) { Fabricate(:user) }
-    it "should return false if video is not in queue" do
-      video.in_queue?(user).should be_false
-    end
-
-    it "should return true if video is in queue" do
-      user.queue_items.create(video: video)
-      video.in_queue?(user).should be_true
-    end
-  end
 end

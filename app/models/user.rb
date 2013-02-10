@@ -8,4 +8,8 @@ class User < ActiveRecord::Base
   has_many :reviews
   has_many :instant_queue
   has_many :queue_items
+
+  def has_in_queue?(video)
+    queue_items.map(&:video).include?(video)
+  end
 end

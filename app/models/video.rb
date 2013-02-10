@@ -15,8 +15,4 @@ class Video < ActiveRecord::Base
       where("title LIKE ?", "%#{title}%")
     end
   end
-
-  def in_queue?(user)
-    queue_items.exists?(user_id: user.id)
-  end
 end
