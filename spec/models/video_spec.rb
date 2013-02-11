@@ -30,4 +30,30 @@ describe Video do
       Video.search_by_title("").should == []
     end
   end
+
+  describe "#rating" do
+    let(:video) { Fabricate(:video) }
+
+    it "gives rating nil without reviews" do
+      video.rating.should == 0.0
+    end
+
+    it "gives average rating of one review" do
+      video.reviews.create(rating: 5, max_rating: 5, review: "test")
+      video.rating.should == 5.0
+    end
+
+    it "gives average rating of reviews" do
+      video.reviews.create(rating: 4, max_rating: 5, review: "test")
+      video.reviews.create(rating: 1, max_rating: 5, review: "test")
+      video.rating.should == 2.5
+    end
+
+    it "gives average rating of reviews with one decimal" do
+      video.reviews.create(rating: 4, max_rating: 5, review: "test")
+      video.reviews.create(rating: 1, max_rating: 5, review: "test")
+      video.reviews.create(rating: 5, max_rating: 5, review: "test")
+      video.rating.should == 3.3
+    end
+  end
 end

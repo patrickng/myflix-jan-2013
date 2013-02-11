@@ -1,6 +1,6 @@
 class Review < ActiveRecord::Base
-  validates :rating, presence: true
-  validates :review, presence: true
+  validates_presence_of :rating
+  validates_presence_of :review
 
   belongs_to :user
   belongs_to :video

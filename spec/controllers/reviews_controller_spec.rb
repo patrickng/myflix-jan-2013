@@ -1,19 +1,46 @@
 require 'spec_helper'
 
 describe ReviewsController do
+  let(:user) { Fabricate(:user) }
+  let(:video) { Fabricate(:video) }
+
+  before(:each) do
+    session[:user_id] = user.id
+  end
+
   describe "POST create" do
-    # this doesn't work yet
-    
-    it "should redirect user to review page of the video" do
-      
-      user = User.create(email_address: "test@test.com", full_name: "test tester", password: "test")
-      video = Video.create(title: "Cop Out", description: "A comedy movie")
+    context "validation success" do
+      before(:each) do
+        post :create, video_id: video.id, review: { rating: 5, max_rating: 5, review: "This movie was a great movie!"}
+      end
 
-      session[:user_id] = user.id
+      it "creates a review for video with the correct inputs" do
+        video.reviews.count.should == 1
+        video.reviews.first.rating.should == 5
+        video.reviews.first.review.should == "This movie was a great movie!"
+      end
 
-      post :create, video_id: video.id, review: { user_id: 1, video_id: 1, rating: 5, max_rating: 5, review: "This movie was a great movie!" }
+      it "sets the user to the current user" do
+        video.reviews.first.user.should == user
+      end
 
-      response.should redirect_to(video_path(video))
+      it "should redirect user to review page of the video" do
+        response.should redirect_to(video_path(video))
+      end
+    end
+
+    context "validation error" do
+      before(:each) do
+        post :create, video_id: video.id, review: { rating: 5, max_rating: 5}
+      end
+
+      it "does not save the review" do
+        video.reviews.count.should == 0
+      end
+
+      it "renders the video show template" do
+        response.should render_template :show
+      end
     end
   end
 end

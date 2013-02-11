@@ -15,4 +15,8 @@ class Video < ActiveRecord::Base
       where("title LIKE ?", "%#{title}%")
     end
   end
+
+  def rating
+    reviews.average(:rating).to_f.round(1)
+  end
 end
