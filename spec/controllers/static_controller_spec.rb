@@ -6,9 +6,10 @@ describe StaticController do
       get :index
       response.should render_template :index
     end
+
     it "redirects the user to home when logged in" do
-      user = User.create(email_address: "test@test.com", full_name: "test tester", password: "test")
-      session[:user] = user
+      user = Fabricate(:user)
+      session[:user_id] = user.id
 
       get :index
       response.should redirect_to home_path
