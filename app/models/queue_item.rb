@@ -3,4 +3,9 @@ class QueueItem < ActiveRecord::Base
 
   belongs_to :user
   belongs_to :video
+
+  def user_rating
+    review = video.reviews.where(user_id: user_id).first
+    review.nil? ? '' : review.rating.to_i
+  end
 end
