@@ -21,6 +21,11 @@ Myflix::Application.routes.draw do
 
   get 'my_queue', to: 'queue_items#index'
   post 'my_queue', to: 'queue_items#create'
-  resources :queue_items, only: [:index, :new, :create, :destroy]
+
+  resources :queue_items, only: [:index, :new, :create, :destroy] do
+    collection do
+      post 'sort'
+    end
+  end
 
 end

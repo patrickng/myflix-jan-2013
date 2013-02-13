@@ -2,7 +2,7 @@ class QueueItemsController < ApplicationController
   before_filter :require_user
 
   def index
-    @queue_item = QueueItem.find_all_by_user_id(session[:user_id])
+    @queue_item = current_user.queue_items.order('position ASC')
   end
 
   def new
@@ -26,5 +26,9 @@ class QueueItemsController < ApplicationController
     queue_item.destroy
 
     redirect_to my_queue_path
+  end
+
+  def sort
+    
   end
 end
