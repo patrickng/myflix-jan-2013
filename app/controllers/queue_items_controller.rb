@@ -10,7 +10,7 @@ class QueueItemsController < ApplicationController
   end
 
   def create
-    queue_item = QueueItem.create(user_id: current_user, video_id: params[:video_id], position: current_user.queue_items.count + 1)
+    queue_item = QueueItem.create(user_id: session[:user_id], video_id: params[:video_id], position: current_user.queue_items.count + 1)
     if queue_item.save
       redirect_to my_queue_path
     else
@@ -29,7 +29,7 @@ class QueueItemsController < ApplicationController
     sorted = params[:queue_items].sort_by { |key, value| value['position'] }
     sorted.each_with_index do |item, index|
       QueueItem.find(item[0].to_i).update_attributes(position: index + 1)
-    end
+  end
 
     redirect_to my_queue_path
   end

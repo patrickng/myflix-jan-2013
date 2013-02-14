@@ -2,21 +2,20 @@ require 'spec_helper'
 
 describe QueueItemsController do
   describe "GET index" do
-    it "should set the @queue_item variable" do
-      user = User.create(email_address: "test@test.com", full_name: "test tester", password: "test")
-      video = Video.create(title: "Cop Out", description: "A comedy movie")
+    let(:user) { Fabricate(:user) }
+    let(:video) { Fabricate(:video) }
+
+    before(:each) do
       session[:user_id] = user.id
-      queue_item = QueueItem.create(user_id: session[:user_id], video_id: video.id)
-      
       get :index
-      assigns(:queue_item).should == [queue_item]
+    end
+
+    it "should set the @queue_item variable" do
+      queue_item = QueueItem.create(user_id: session[:user_id], video_id: video.id)
+      assigns(:queue_items).should == [queue_item]
     end
 
     it "should render the index template" do
-      user = User.create(email_address: "test@test.com", full_name: "test tester", password: "test")
-      session[:user_id] = user.id
-
-      get :index
       response.should render_template :index
     end
 
@@ -26,9 +25,7 @@ describe QueueItemsController do
       video1 = Video.create(title: "Cop Out", description: "A comedy movie")
       queue_item1 = QueueItem.create(user_id: user1.id, video_id: video1.id)
       queue_item2 = QueueItem.create(user_id: user2.id, video_id: video1.id)
-      session[:user_id] = user1.id
-
-      get :index
+      
       QueueItem.find_all_by_user_id(session[:user_id]).should_not include(queue_item2)
     end
   end
@@ -48,7 +45,7 @@ describe QueueItemsController do
   describe "DELETE destroy" do
     context "when user is logged in" do
       let(:user) { Fabricate(:user) }
-      let(:queue_item) { Fabricate(:queue_item, user: user ) }
+      let(:queue_item) { Fabricate(:queue_item, user: user) }
 
       before(:each) do
         session[:user_id] = user.id
@@ -74,6 +71,43 @@ describe QueueItemsController do
         delete :destroy, { id: queue_item.id }
         response.should redirect_to login_path
       end
+    end
+  end
+
+  describe "POST queue_items#sort" do
+    let(:user) { Fabricate(:user) }
+    let(:queue_item1) { Fabricate(:queue_item, user: user, position: 1) }
+    let(:queue_item2) { Fabricate(:queue_item, user: user, position: 2) }
+    let(:queue_item3) { Fabricate(:queue_item, user: user, position: 3) }
+
+    before(:each) do
+      session[:user_id] = user.id
+    end
+
+    it "sorts queue items by position" do
+      post :sort, queue_items: { queue_item1.id => { position: 3 }, queue_item2.id => { position: 1 }, queue_item3.id => { position: 2 } }
+
+      queue_item1.reload
+      queue_item1.position.should == 3
+      queue_item2.reload
+      queue_item2.position.should == 1
+      queue_item3.reload
+      queue_item3.position.should == 2
+    end
+    it "sorts queue items by position with decimals" do
+      post :sort, queue_items: { queue_item1.id => { position: 1.5 }, queue_item2.id => { position: 1 }, queue_item3.id => { position: 2 } }
+
+      queue_item1.reload
+      queue_item1.position.should == 2
+      queue_item2.reload
+      queue_item2.position.should == 1
+      queue_item3.reload
+      queue_item3.position.should == 3
+    end
+    it "redirects to my_queue" do
+      post :sort, queue_items: { queue_item1.id => { position: 1.5 }, queue_item2.id => { position: 1 }, queue_item3.id => { position: 2 } }
+
+      response.should redirect_to my_queue_path
     end
   end
 end

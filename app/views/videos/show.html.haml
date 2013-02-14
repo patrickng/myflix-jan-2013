@@ -25,7 +25,7 @@
           = f.submit 'Submit', class: 'btn'
           %a(href="") Cancel
       %header
-        %h3=raw "User Reviews (#{@video.reviews.count})"
+        %h3= "User Reviews (#{@video.reviews.count})"
       %ul
         - @reviews.each do |review|
           %article.review
