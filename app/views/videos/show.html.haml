@@ -18,7 +18,7 @@
       = form_for([@video, @review], html: { class: 'form-vertical' }) do |f|
         %fieldset
           %label Rate this video
-          = f.select :rating, options_for_select(5.downto(1).map { |n| [n.to_s + " Stars", n] })
+          = f.select :rating, options_for_select(5.downto(1).map { |n| ["#{pluralize(n, "star", "stars")}", n] })
         %fieldset          
           = f.text_area :review, label: 'Write Review', class: 'span6', rows: 6
         %fieldset.actions.clearfix
