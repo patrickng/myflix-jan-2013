@@ -25,7 +25,8 @@
                     %td
                       = button_to "Play", nil, class: "btn"
                     %td
-                      = select_tag :rating, options_for_select(5.downto(1).map { |n| ["#{pluralize(n, "star", "stars")}", n] }, item.user_rating), { include_blank: '' }
+                      = form_for([item.video, item.video.reviews.new], html: { class: 'form-vertical' }) do |f|
+                        = f.select :rating, options_for_select(5.downto(1).map { |n| ["#{pluralize(n, "star", "stars")}", n] }, item.user_rating), { include_blank: '' }, { onChange: 'this.form.submit();' }
                     %td
                       - item.video.categories.each do |category|
                         = link_to category.name, category_path(category)

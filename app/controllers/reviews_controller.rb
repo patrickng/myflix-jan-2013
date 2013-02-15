@@ -10,4 +10,12 @@ class ReviewsController < ApplicationController
       render "videos/show"
     end
   end
+
+  def edit
+    
+  end
+
+  def update
+
+  end
 end

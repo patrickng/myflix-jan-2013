@@ -19,7 +19,7 @@
         %fieldset
           %label Rate this video
           = f.select :rating, options_for_select(5.downto(1).map { |n| ["#{pluralize(n, "star", "stars")}", n] })
-        %fieldset          
+        %fieldset
           = f.text_area :review, label: 'Write Review', class: 'span6', rows: 6
         %fieldset.actions.clearfix
           = f.submit 'Submit', class: 'btn'
@@ -32,9 +32,7 @@
             %li.row
               .span2
                 %span 
-                  = review.rating
-                  \/
-                  = review.max_rating
+                  = "#{review.rating} / #{review.max_rating}"
                 %p 
                   by 
                   = link_to review.user.full_name

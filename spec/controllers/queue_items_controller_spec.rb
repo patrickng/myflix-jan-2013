@@ -32,11 +32,10 @@ describe QueueItemsController do
 
   describe "POST create" do
     it "should add movie to queue" do
-      user = User.create(email_address: "test@test.com", full_name: "test tester", password: "test")
-      video = Video.create(title: "Cop Out", description: "A comedy movie")
+      user = Fabricate(:user)
+      video = Fabricate(:video)
       session[:user_id] = user.id
       queue_item = QueueItem.create(user_id: user.id, video_id: video.id)
-
       post :create, { video_id: 1, user_id: 1 }
       QueueItem.all.count.should == 2
     end
@@ -74,7 +73,7 @@ describe QueueItemsController do
     end
   end
 
-  describe "POST queue_items#sort" do
+  describe "POST queue_items#update" do
     let(:user) { Fabricate(:user) }
     let(:queue_item1) { Fabricate(:queue_item, user: user, position: 1) }
     let(:queue_item2) { Fabricate(:queue_item, user: user, position: 2) }
@@ -94,6 +93,7 @@ describe QueueItemsController do
       queue_item3.reload
       queue_item3.position.should == 2
     end
+
     it "sorts queue items by position with decimals" do
       post :sort, queue_items: { queue_item1.id => { position: 1.5 }, queue_item2.id => { position: 1 }, queue_item3.id => { position: 2 } }
 
@@ -104,6 +104,7 @@ describe QueueItemsController do
       queue_item3.reload
       queue_item3.position.should == 3
     end
+
     it "redirects to my_queue" do
       post :sort, queue_items: { queue_item1.id => { position: 1.5 }, queue_item2.id => { position: 1 }, queue_item3.id => { position: 2 } }
 
