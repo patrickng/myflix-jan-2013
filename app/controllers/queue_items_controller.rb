@@ -19,7 +19,7 @@ class QueueItemsController < ApplicationController
   end
 
   def update
-    if QueueItem.reorder(params[:queue_items])
+    if QueueItem.update_fields(params[:queue_items])
       redirect_to my_queue_path
     else
       redirect_to home_path, flash: { error: "You have no videos in your queue." }

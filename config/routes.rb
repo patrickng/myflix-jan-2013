@@ -16,7 +16,7 @@ Myflix::Application.routes.draw do
     collection do
       post 'search'
     end
-    resources :reviews, only: [:create]
+    resources :reviews, only: [:create, :update]
   end
 
   get 'my_queue', to: 'queue_items#index'

@@ -11,11 +11,8 @@ class ReviewsController < ApplicationController
     end
   end
 
-  def edit
-    
-  end
-
   def update
-
+    video = Video.find(params[:video_id])
+    review = Review.find(params[:review_id])
   end
 end

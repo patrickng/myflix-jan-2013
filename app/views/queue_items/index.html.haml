@@ -1,7 +1,7 @@
 %section.my_queue.container
   .row
     .span10.offset1
-      = form_tag my_queue_sort_path, method: :post do
+      = form_tag my_queue_update_path, method: :post do
         %article
           %header
             %h2 My Queue
@@ -16,21 +16,19 @@
                 %th(width="15%") Remove
             %tbody
               - @queue_items.each do |item|
-                = fields_for "queue_items[]", item do |f|
-                  %tr
-                    %td
-                      = f.text_field :position
-                    %td
-                      = link_to item.video.title, item.video
-                    %td
-                      = button_to "Play", nil, class: "btn"
-                    %td
-                      = form_for([item.video, item.video.reviews.new], html: { class: 'form-vertical' }) do |f|
-                        = f.select :rating, options_for_select(5.downto(1).map { |n| ["#{pluralize(n, "star", "stars")}", n] }, item.user_rating), { include_blank: '' }, { onChange: 'this.form.submit();' }
-                    %td
-                      - item.video.categories.each do |category|
-                        = link_to category.name, category_path(category)
-                    %td
-                      = link_to queue_item_path(item), method: :delete, confirm: "Delete from queue?" do
-                        %i.icon-remove
+                %tr
+                  %td
+                    = text_field_tag "queue_items[#{item.id}][position]", item.position
+                  %td
+                    = link_to item.video.title, item.video
+                  %td
+                    = button_to "Play", nil, class: "btn"
+                  %td
+                    = select_tag "queue_items[#{item.id}][rating]", options_for_select(5.downto(1).map { |n| ["#{pluralize(n, "star", "stars")}", n] }, item.user_rating), { include_blank: '' }
+                  %td
+                    - item.video.categories.each do |category|
+                      = link_to category.name, category_path(category)
+                  %td
+                    = link_to queue_item_path(item), method: :delete, confirm: "Delete from queue?" do
+                      %i.icon-remove
           = submit_tag "Update Instant Queue", class: "btn"

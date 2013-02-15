@@ -84,29 +84,21 @@ describe QueueItemsController do
     end
 
     it "sorts queue items by position" do
-      post :sort, queue_items: { queue_item1.id => { position: 3 }, queue_item2.id => { position: 1 }, queue_item3.id => { position: 2 } }
+      post :update, queue_items: { queue_item1.id => { position: 3 }, queue_item2.id => { position: 1 }, queue_item3.id => { position: 2 } }
 
-      queue_item1.reload
-      queue_item1.position.should == 3
-      queue_item2.reload
-      queue_item2.position.should == 1
-      queue_item3.reload
-      queue_item3.position.should == 2
+      user.queue_items.reload.should == [queue_item2, queue_item3, queue_item1]
+      user.queue_items.reload.map(&:position).should == [1, 2, 3]
     end
 
     it "sorts queue items by position with decimals" do
-      post :sort, queue_items: { queue_item1.id => { position: 1.5 }, queue_item2.id => { position: 1 }, queue_item3.id => { position: 2 } }
+      post :update, queue_items: { queue_item1.id => { position: 1.5 }, queue_item2.id => { position: 1 }, queue_item3.id => { position: 2 } }
 
-      queue_item1.reload
-      queue_item1.position.should == 2
-      queue_item2.reload
-      queue_item2.position.should == 1
-      queue_item3.reload
-      queue_item3.position.should == 3
+      user.queue_items.reload.should == [queue_item2, queue_item1, queue_item3]
+      user.queue_items.reload.map(&:position).should == [1, 2, 3]
     end
 
     it "redirects to my_queue" do
-      post :sort, queue_items: { queue_item1.id => { position: 1.5 }, queue_item2.id => { position: 1 }, queue_item3.id => { position: 2 } }
+      post :update, queue_items: { queue_item1.id => { position: 1.5 }, queue_item2.id => { position: 1 }, queue_item3.id => { position: 2 } }
 
       response.should redirect_to my_queue_path
     end
