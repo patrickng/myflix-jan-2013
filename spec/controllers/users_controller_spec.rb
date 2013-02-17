@@ -34,9 +34,14 @@ describe UsersController do
       User.all.count.should == count
     end
 
-    it "renders new template when user is not created" do
-      post :create, user: { email_address: "", full_name: "", password: "" }
-      response.should render_template :new
+    # it "renders new template when user is not created" do
+    #   post :create, user: { email_address: "", full_name: "", password: "" }
+    #   response.should render_template :new
+    # end
+
+    it_behaves_like "render_template" do
+      let(:action) { post :create, user: { email_address: "", full_name: "", password: "" } }
+      let(:template) { :new }
     end
   end
 end

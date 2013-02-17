@@ -7,25 +7,31 @@ describe QueueItemsController do
 
     before(:each) do
       session[:user_id] = user.id
-      get :index
     end
 
     it "should set the @queue_item variable" do
+      get :index
+      # require_sign_in
       queue_item = QueueItem.create(user_id: session[:user_id], video_id: video.id)
       assigns(:queue_items).should == [queue_item]
     end
 
-    it "should render the index template" do
-      response.should render_template :index
+    # it "should render the index template" do
+    #   response.should render_template :index
+    # end
+
+    it_behaves_like "render_template" do
+      let(:action) { get :index }
+      let(:template) { :index }
     end
 
+    let(:user1) { Fabricate(:user) }
+    let(:user2) { Fabricate(:user) }
+    let(:video1) { Fabricate(:video) }
+    let(:queue_item1) { Fabricate(:queue_item, user: user1, video: video1) }
+    let(:queue_item2) { Fabricate(:queue_item, user: user2, video: video1) }
+
     it "should only show queue items for current user" do
-      user1 = User.create(email_address: "test1@test.com", full_name: "test tester 1", password: "test")
-      user2 = User.create(email_address: "test2@test.com", full_name: "test tester 2", password: "test")
-      video1 = Video.create(title: "Cop Out", description: "A comedy movie")
-      queue_item1 = QueueItem.create(user_id: user1.id, video_id: video1.id)
-      queue_item2 = QueueItem.create(user_id: user2.id, video_id: video1.id)
-      
       QueueItem.find_all_by_user_id(session[:user_id]).should_not include(queue_item2)
     end
   end
@@ -55,9 +61,14 @@ describe QueueItemsController do
         QueueItem.all.should_not include(queue_item)
       end
 
-      it "should redirect to my_queue_path" do
-        delete :destroy, { id: queue_item.id }
-        response.should redirect_to my_queue_path
+      # it "should redirect to my_queue_path" do
+      #   delete :destroy, { id: queue_item.id }
+      #   response.should redirect_to my_queue_path
+      # end
+
+      it_behaves_like "redirect_to" do
+        let(:action) { delete :destroy, id: queue_item.id }
+        let(:path) { my_queue_path }
       end
     end
 
@@ -97,10 +108,15 @@ describe QueueItemsController do
       user.queue_items.reload.map(&:position).should == [1, 2, 3]
     end
 
-    it "redirects to my_queue" do
-      post :update, queue_items: { queue_item1.id => { position: 1.5 }, queue_item2.id => { position: 1 }, queue_item3.id => { position: 2 } }
+    # it "redirects to my_queue" do
+    #   post :update, queue_items: { queue_item1.id => { position: 1.5 }, queue_item2.id => { position: 1 }, queue_item3.id => { position: 2 } }
 
-      response.should redirect_to my_queue_path
+    #   response.should redirect_to my_queue_path
+    # end
+
+    it_behaves_like "redirect_to" do
+      let(:action) { post :update, queue_items: { queue_item1.id => { position: 1.5 }, queue_item2.id => { position: 1 }, queue_item3.id => { position: 2 } } }
+      let(:path) { my_queue_path }
     end
 
     it "updates existing video rating" do

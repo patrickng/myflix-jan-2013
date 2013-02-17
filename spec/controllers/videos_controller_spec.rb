@@ -16,34 +16,42 @@ describe VideosController do
       assigns(:categories).should == [comedy, drama]
     end
 
-    it "renders the index template" do
-      get :index
-      response.should render_template :index
+    # it "renders the index template" do
+    #   get :index
+    #   response.should render_template :index
+    # end
+
+    it_behaves_like "render_template" do
+      let(:action) { get :index }
+      let(:template) { :index }
     end
+
   end
 
   describe "GET show" do
-    let(:video) { video = Fabricate(:video) }
-    before(:each) do
-      @review1 = Fabricate(:review, video: video)
-      @review2 = Fabricate(:review, video: video)
-      get :show, id: video.id
-    end
+    let(:user1) { Fabricate(:user) }
+    let(:user2) { Fabricate(:user) }
+    let(:video) { Fabricate(:video) }
+    let(:review1) { Fabricate(:review, video: video, rating: 1, user: user1) }
+    let(:review2) { Fabricate(:review, video: video, rating: 2, user: user2) }
 
     it "assigns the requested video to @video" do
+      get :show, id: video.id
       assigns(:video).should == video
     end
 
-    it "renders the video show template" do
-      response.should render_template :show
-    end
-
     it "displays reviews in reverse chronological order" do
-      assigns(:reviews).should include(@review2, @review1)
+      get :show, id: video.id
+      assigns(:reviews).should include(review2, review1)
     end
 
-    it "displays average rating" do
-      assigns(:reviews).average(:rating).to_s.should == ((@review2.rating + @review1.rating) / 2.0).to_s
+    # it "renders the video show template" do
+    #   response.should render_template :show
+    # end
+
+    it_behaves_like "render_template" do
+      let(:action) { get :show, id: video.id }
+      let(:template) { :show }
     end
   end
 
@@ -58,8 +66,13 @@ describe VideosController do
       assigns(:results).should include(@video1, @video2)
     end
 
-    it "renders the search template" do
-      response.should render_template :search
+    # it "renders the search template" do
+    #   response.should render_template :search
+    # end
+
+    it_behaves_like "render_template" do
+      let(:action) { get :search, search: "cop" }
+      let(:template) { :search }
     end
   end
 end
