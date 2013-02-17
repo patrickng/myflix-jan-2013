@@ -102,5 +102,21 @@ describe QueueItemsController do
 
       response.should redirect_to my_queue_path
     end
+
+    it "updates existing video rating" do
+      video = Fabricate(:video)
+      review = Fabricate(:review, video: video, user: user)
+      post :update, queue_items: { queue_item1.id => { position: 1, rating: 1 } }
+
+      user.queue_items.reload.first.video.reviews.where(user_id: user.id).first.rating.should == 1
+    end
+
+    it "creates new review with rating when rating does not exist" do
+      video = Fabricate(:video)
+      post :update, queue_items: { queue_item1.id => { position: 1, rating: 2 } }
+
+      user.queue_items.reload.first.video.reviews.where(user_id: user.id).first.id.should == 1
+      user.queue_items.reload.first.video.reviews.where(user_id: user.id).first.rating.should == 2
+    end
   end
 end
