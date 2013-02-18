@@ -3,8 +3,7 @@ require 'spec_helper'
 describe VideosController do
 
   before(:each) do
-    user = Fabricate(:user)
-    session[:user_id] = user.id
+    set_current_user
   end
 
   describe "GET index" do
@@ -56,14 +55,12 @@ describe VideosController do
   end
 
   describe "POST search" do
-    before(:each) do
-      @video1 = Video.create(title: "Cop Out", description: "A comedy movie")
-      @video2 = Video.create(title: "Cop Land", description: "A thriller movie")
-      post :search, search: "cop"
-    end
+    let(:video1) { Fabricate(:video, title: "The Good Cop") }
+    let(:video2) { Fabricate(:video, title: "Cop Out") }
 
     it "assigns the requested results to @results" do
-      assigns(:results).should include(@video1, @video2)
+      post :search, search: "cop"
+      assigns(:results).should include(video1, video2)
     end
 
     # it "renders the search template" do

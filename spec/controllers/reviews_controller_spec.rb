@@ -1,11 +1,10 @@
 require 'spec_helper'
 
 describe ReviewsController do
-  let(:user) { Fabricate(:user) }
   let(:video) { Fabricate(:video) }
 
   before(:each) do
-    session[:user_id] = user.id
+    set_current_user
   end
 
   describe "POST create" do
@@ -23,7 +22,7 @@ describe ReviewsController do
 
       it "sets the user to the current user" do
         post :create, video_id: video.id, review: { rating: 5, max_rating: 5, review: "This movie was a great movie!"}
-        video.reviews.first.user.should == user
+        video.reviews.first.user.should == current_user
       end
 
       # it "should redirect user to review page of the video" do

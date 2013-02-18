@@ -2,11 +2,10 @@ require 'spec_helper'
 
 describe QueueItemsController do
   describe "GET index" do
-    let(:user) { Fabricate(:user) }
     let(:video) { Fabricate(:video) }
 
     before(:each) do
-      session[:user_id] = user.id
+      set_current_user
     end
 
     it "should set the @queue_item variable" do
@@ -49,11 +48,11 @@ describe QueueItemsController do
 
   describe "DELETE destroy" do
     context "when user is logged in" do
-      let(:user) { Fabricate(:user) }
+      let(:user) { current_user }
       let(:queue_item) { Fabricate(:queue_item, user: user) }
 
       before(:each) do
-        session[:user_id] = user.id
+        set_current_user
       end
 
       it "should not have the queue item" do
@@ -85,27 +84,26 @@ describe QueueItemsController do
   end
 
   describe "POST queue_items#update" do
-    let(:user) { Fabricate(:user) }
-    let(:queue_item1) { Fabricate(:queue_item, user: user, position: 1) }
-    let(:queue_item2) { Fabricate(:queue_item, user: user, position: 2) }
-    let(:queue_item3) { Fabricate(:queue_item, user: user, position: 3) }
+    let(:queue_item1) { Fabricate(:queue_item, user: current_user, position: 1) }
+    let(:queue_item2) { Fabricate(:queue_item, user: current_user, position: 2) }
+    let(:queue_item3) { Fabricate(:queue_item, user: current_user, position: 3) }
 
     before(:each) do
-      session[:user_id] = user.id
+      set_current_user
     end
 
     it "sorts queue items by position" do
       post :update, queue_items: { queue_item1.id => { position: 3 }, queue_item2.id => { position: 1 }, queue_item3.id => { position: 2 } }
 
-      user.queue_items.reload.should == [queue_item2, queue_item3, queue_item1]
-      user.queue_items.reload.map(&:position).should == [1, 2, 3]
+      current_user.queue_items.reload.should == [queue_item2, queue_item3, queue_item1]
+      current_user.queue_items.reload.map(&:position).should == [1, 2, 3]
     end
 
     it "sorts queue items by position with decimals" do
       post :update, queue_items: { queue_item1.id => { position: 1.5 }, queue_item2.id => { position: 1 }, queue_item3.id => { position: 2 } }
 
-      user.queue_items.reload.should == [queue_item2, queue_item1, queue_item3]
-      user.queue_items.reload.map(&:position).should == [1, 2, 3]
+      current_user.queue_items.reload.should == [queue_item2, queue_item1, queue_item3]
+      current_user.queue_items.reload.map(&:position).should == [1, 2, 3]
     end
 
     # it "redirects to my_queue" do
@@ -121,18 +119,18 @@ describe QueueItemsController do
 
     it "updates existing video rating" do
       video = Fabricate(:video)
-      review = Fabricate(:review, video: video, user: user)
+      review = Fabricate(:review, video: video, user: current_user)
       post :update, queue_items: { queue_item1.id => { position: 1, rating: 1 } }
 
-      user.queue_items.reload.first.video.reviews.where(user_id: user.id).first.rating.should == 1
+      current_user.queue_items.reload.first.video.reviews.where(user_id: current_user.id).first.rating.should == 1
     end
 
     it "creates new review with rating when rating does not exist" do
       video = Fabricate(:video)
       post :update, queue_items: { queue_item1.id => { position: 1, rating: 2 } }
 
-      Review.where(user_id: user.id).count.should == 1
-      Review.where(user_id: user.id).first.rating.should == 2
+      Review.where(user_id: current_user.id, video_id: video.id).count.should == 1
+      Review.where(user_id: current_user.id, video_id: video.id).first.rating.should == 2
     end
   end
 end
