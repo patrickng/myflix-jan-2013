@@ -17,14 +17,18 @@ group :test, :development do
   gem 'shoulda-matchers'
   gem 'fabrication'
   gem 'faker'
+  gem 'pry'
+  gem 'pry-nav'
 end
 
 group :development do
   gem 'sqlite3'
-  gem 'pry'
-  gem 'pry-nav'
   gem 'thin'
   gem 'better_errors'
+end
+
+group :test do
+  gem 'capybara'
 end
 
 group :production do
