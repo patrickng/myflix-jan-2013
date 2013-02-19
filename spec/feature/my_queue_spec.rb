@@ -66,15 +66,15 @@ feature "My Queue" do
     click_on "Videos"
     find(:xpath, "//a/img[@alt='Family_guy']/..").click
     click_on "+ My Queue"
-    within(".item-1 td:first") do
+    within("tr:nth-child(1) td:first") do
       fill_in "queue_items[1][position]", with: 2
     end
-    within(".item-2 td:first") do
+    within("tr:nth-child(2) td:first") do
       fill_in "queue_items[2][position]", with: 1
     end
     click_on "Update Instant Queue"
-    find(".item-1 td:nth-child(2)").should have_content "Family Guy"
-    find(".item-2 td:nth-child(2)").should have_content "Futurama"
+    find("tr:nth-child(1) td:nth-child(2)").should have_content "Family Guy"
+    find("tr:nth-child(2) td:nth-child(2)").should have_content "Futurama"
   end
 
 end

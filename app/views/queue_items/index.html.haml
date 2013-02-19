@@ -16,7 +16,7 @@
                 %th(width="15%") Remove
             %tbody
               - @queue_items.each_with_index do |item, index|
-                %tr{class: "item-#{index+1}"}
+                %tr
                   %td
                     = text_field_tag "queue_items[#{item.id}][position]", item.position
                   %td
