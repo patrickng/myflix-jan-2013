@@ -77,4 +77,18 @@ feature "My Queue" do
     find("tr:nth-child(2) td:nth-child(2)").should have_content "Futurama"
   end
 
+  scenario "remove video" do
+    visit home_path
+    fill_in "Email Address:", with: "patrick@example.me"
+    fill_in "Password", with: "test88"
+    click_button "Sign in"
+    find(:xpath, "//a/img[@alt='Futurama']/..").click
+    click_on "+ My Queue"
+    click_on "Videos"
+    find(:xpath, "//a/img[@alt='Family_guy']/..").click
+    click_on "+ My Queue"
+    find("tr:nth-child(1) td:last-child a").click
+    page.should have_content "Family Guy"
+    page.should_not have_content "Futurama"
+  end
 end
