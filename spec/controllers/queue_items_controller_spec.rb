@@ -129,8 +129,8 @@ describe QueueItemsController do
       video = Fabricate(:video)
       post :update, queue_items: { queue_item1.id => { position: 1, rating: 2 } }
 
-      Review.where(user_id: current_user.id, video_id: video.id).count.should == 1
-      Review.where(user_id: current_user.id, video_id: video.id).first.rating.should == 2
+      Review.where(user_id: current_user.id).count.should == 1
+      Review.where(user_id: current_user.id).first.rating.should == 2
     end
   end
 end
