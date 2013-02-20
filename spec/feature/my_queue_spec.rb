@@ -1,94 +1,113 @@
+# require 'spec_helper'
+
+# feature "My Queue" do
+
+#   given(:mike) { Fabricate(:user, full_name: "Mike Example") }
+#   given(:comedy) { Fabricate(:category, name: "Comedy") }
+#   given(:futurama) { Fabricate(:video, title: "Futurama") }
+#   given(:family_guy) { Fabricate(:video, title: "Family Guy") }
+
+#   background do
+#     Categorization.create(category_id: comedy.id, video_id: futurama.id)
+#     Categorization.create(category_id: comedy.id, video_id: family_guy.id)
+#   end
+
+#   scenario "adding and reordering videos in queue" do
+    
+#     log_in(mike)
+
+#     add_video_to_queue(futurama)
+
+#     page.should have_content "Futurama"
+#     click_link "Futurama"
+    
+#     page.should have_content "Futurama"
+#     page.should_not have_content "+ My Queue"
+
+#     add_video_to_queue(family_guy)
+#     set_position(family_guy, 1)
+#     set_position(futurama, 2)
+
+#     click_button "Update Instant Queue"
+    
+#     find("tr:nth-child(1) td:nth-child(2)").should have_content "Family Guy"
+#     find("tr:nth-child(2) td:nth-child(2)").should have_content "Futurama"
+#     find(:xpath, "//tr[contains(.,'Family Guy')]//input")["value"].should == 1
+#     find(:xpath, "//tr[contains(.,'Futurama')]//input")["value"].should == 1
+#   end
+
+# end
+
+# def set_position(video, position)
+#   video_id = page.find(:xpath, "//tr[contains(.,'#{video.title}')]//input")['id']
+#   fill_in video_id, with: position.to_s
+# end
+
+# def add_video_to_queue(video)
+#   visit home_path
+#   find("section.content a[href='#{video_path(video)}']").click
+#   click_link "+ My Queue"
+# end
+
+# def remove_queue_item(video)
+#   video_id = page.find(:xpath, "//tr[contains(.,'#{video.title}')]//input")['id']
+#   find(:xpath, "//a[href='/queue_items/#{video_id}']").click
+# end
+
 require 'spec_helper'
 
-feature "My Queue" do
+feature 'user interacts with the queue' do
+
+  given(:joe) { Fabricate(:user) }
+  given(:comedy) { Fabricate(:category, name: "Comedy") }
+  given(:monk) { Fabricate(:video, title: 'Monk', description: "SF detective") }
+  given(:futurama) { Fabricate(:video, title: 'Futurama') }
+  given(:family_guy) { Fabricate(:video, title: 'Family Guy') }
+
   background do
-    User.create(full_name: "Patrick Example", email_address: "patrick@example.me", password: "test88")
-    video1 = Video.create(title: "Futurama", description: "Pizza boy Philip J. Fry awakens in the 31st century after 1,000 years of cryogenic preservation in this animated series. After he gets a job at an interplanetary delivery service, Fry embarks on ridiculous escapades to make sense of his predicament.", small_cover_url: "/tmp/futurama.jpg", large_cover_url: "/tmp/futurama_large.jpg" )
-    video2 = Video.create(title: "Family Guy", description: "In Seth MacFarlane's no-holds-barred animated show, buffoonish Peter Griffin and his dysfunctional family experience wacky misadventures, from kidnapping the Pope to being forced to put up scythe-bearing Death for a few days after he breaks his leg.", small_cover_url: "/tmp/family_guy.jpg", large_cover_url: "/tmp/family_guy_large.jpg")
-    category1 = Category.create(name: "Comedy", description: "Hilarity and funniness")
-    Categorization.create(video_id: video1.id, category_id: category1.id)
-    Categorization.create(video_id: video2.id, category_id: category1.id)
+    Categorization.create(category_id: comedy.id, video_id: monk.id)
+    Categorization.create(category_id: comedy.id, video_id: futurama.id)
+    Categorization.create(category_id: comedy.id, video_id: family_guy.id)
   end
 
-  scenario "add video to queue" do
-    visit home_path
-    fill_in "Email Address:", with: "patrick@example.me"
-    fill_in "Password", with: "test88"
-    click_button "Sign in"
-    find(:xpath, "//a/img[@alt='Futurama']/..").click
-    click_on "+ My Queue"
-    page.should have_content "Futurama"
-  end
+  scenario 'adding and reordering videos in the queue' do
+    sign_in(joe)
 
-  scenario "video link on queue page goes to correct video" do
-    visit my_queue_path
-    fill_in "Email Address:", with: "patrick@example.me"
-    fill_in "Password", with: "test88"
-    click_button "Sign in"
-    find(:xpath, "//a/img[@alt='Futurama']/..").click
-    click_on "+ My Queue"
-    click_on "Futurama"
-    page.should have_content "Futurama"
-  end
+    add_video_to_queue(monk)
 
-  scenario "video show page does not display add to queue link" do
-    visit my_queue_path
-    fill_in "Email Address:", with: "patrick@example.me"
-    fill_in "Password", with: "test88"
-    click_button "Sign in"
-    find(:xpath, "//a/img[@alt='Futurama']/..").click
-    click_on "+ My Queue"
-    click_on "Futurama"
+    page.should have_content "Monk"
+    click_link("Monk")
+
+    page.should have_content "Monk"
+    page.should have_content "SF detective"
     page.should_not have_content "+ My Queue"
-  end
 
-  scenario "adding multiple videos to queue" do
-    visit home_path
-    fill_in "Email Address:", with: "patrick@example.me"
-    fill_in "Password", with: "test88"
-    click_button "Sign in"
-    find(:xpath, "//a/img[@alt='Futurama']/..").click
-    click_on "+ My Queue"
-    click_on "Videos"
-    find(:xpath, "//a/img[@alt='Family_guy']/..").click
-    click_on "+ My Queue"
-    page.should have_content "Futurama"
-    page.should have_content "Family Guy"
-  end
+    visit my_queue_path
 
-  scenario "reordering video in queue" do
-    visit home_path
-    fill_in "Email Address:", with: "patrick@example.me"
-    fill_in "Password", with: "test88"
-    click_button "Sign in"
-    find(:xpath, "//a/img[@alt='Futurama']/..").click
-    click_on "+ My Queue"
-    click_on "Videos"
-    find(:xpath, "//a/img[@alt='Family_guy']/..").click
-    click_on "+ My Queue"
-    within("tr:nth-child(1) td:first") do
-      fill_in "queue_items[1][position]", with: 2
-    end
-    within("tr:nth-child(2) td:first") do
-      fill_in "queue_items[2][position]", with: 1
-    end
-    click_on "Update Instant Queue"
-    find("tr:nth-child(1) td:nth-child(2)").should have_content "Family Guy"
-    find("tr:nth-child(2) td:nth-child(2)").should have_content "Futurama"
-  end
+    # add_video_to_queue(futurama)
+    # add_video_to_queue(family_guy)
 
-  scenario "remove video" do
-    visit home_path
-    fill_in "Email Address:", with: "patrick@example.me"
-    fill_in "Password", with: "test88"
-    click_button "Sign in"
-    find(:xpath, "//a/img[@alt='Futurama']/..").click
-    click_on "+ My Queue"
-    click_on "Videos"
-    find(:xpath, "//a/img[@alt='Family_guy']/..").click
-    click_on "+ My Queue"
-    find("tr:nth-child(1) td:last-child a").click
-    page.should have_content "Family Guy"
-    page.should_not have_content "Futurama"
+    binding.pry
+
+    # set_position(family_guy, 3)
+    # set_position(futurama, 1)
+    set_position(monk, 1)
+
+    click_button 'Update Instant Queue'
+
+    page.find(:xpath, "//tr[contains(.,'Monk')]//input")['value'].should == '1'
+    # page.find(:xpath, "//tr[contains(.,'Monk')]//input")['value'].should == '2'
+    # page.find(:xpath, "//tr[contains(.,'Family Guy')]//input")['value'].should == '3'
   end
+end
+
+def add_video_to_queue(video)
+  visit home_path
+  find("section.content a[href='#{video_path(video)}']").click
+  click_link("+ My Queue")
+end
+
+def set_position(video, position)
+  video_id = page.find(:xpath, "//tr[contains(.,'#{video.title}')]//input")['id']
+  fill_in video_id, with: position.to_s
 end
