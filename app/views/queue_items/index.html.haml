@@ -1,34 +1,39 @@
 %section.my_queue.container
   .row
     .span10.offset1
-      = form_tag my_queue_update_path, method: :post do
-        %article
-          %header
-            %h2 My Queue
-          %table.table
-            %thead
-              %tr
-                %th(width="10%") List Order
-                %th(width="30%") Video Title
-                %th(width="10%") Play
-                %th(width="20%") Your Rating
-                %th(width="15%") Genre
-                %th(width="15%") Remove
-            %tbody
-              - @queue_items.each_with_index do |item, index|
+      %article
+        %header
+          %h2 My Queue
+        - if @queue_items.blank?
+          %tr
+            %td
+              No videos in the queue.
+        - else
+          = form_tag my_queue_update_path do
+            %table.table
+              %thead
                 %tr
-                  %td
-                    = text_field_tag "queue_items[#{item.id}][position]", item.position
-                  %td
-                    = link_to item.video.title, item.video
-                  %td
-                    = button_to "Play", nil, class: "btn"
-                  %td
-                    = select_tag "queue_items[#{item.id}][rating]", options_for_select(5.downto(1).map { |n| ["#{pluralize(n, "star", "stars")}", n] }, item.user_rating), { include_blank: '' }
-                  %td
-                    - item.video.categories.each do |category|
-                      = link_to category.name, category_path(category)
-                  %td
-                    = link_to queue_item_path(item), method: :delete, confirm: "Delete from queue?" do
-                      %i.icon-remove
-          = submit_tag "Update Instant Queue", class: "btn"
+                  %th(width="10%") List Order
+                  %th(width="30%") Video Title
+                  %th(width="10%") Play
+                  %th(width="20%") Your Rating
+                  %th(width="15%") Genre
+                  %th(width="15%") Remove
+              %tbody
+                - @queue_items.each_with_index do |item, index|
+                  %tr
+                    %td
+                      = text_field_tag "queue_items[#{item.id}][position]", item.position
+                    %td
+                      = link_to item.video.title, item.video
+                    %td
+                      = button_to "Play", nil, class: "btn"
+                    %td
+                      = select_tag "queue_items[#{item.id}][rating]", options_for_select(5.downto(1).map { |n| ["#{pluralize(n, "star", "stars")}", n] }, item.user_rating), { include_blank: '' }
+                    %td
+                      - item.video.categories.each do |category|
+                        = link_to category.name, category_path(category)
+                    %td
+                      = link_to queue_item_path(item), method: :delete, confirm: "Delete from queue?" do
+                        %i.icon-remove
+            = submit_tag "Update Instant Queue", class: "btn"
