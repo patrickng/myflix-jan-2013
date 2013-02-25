@@ -2,15 +2,19 @@ require 'spec_helper'
 
 describe ReviewsController do
   let(:video) { Fabricate(:video) }
+  let(:user) { Fabricate(:user) }
 
   before(:each) do
-    set_current_user
+    set_current_user(user)
   end
 
   describe "POST create" do
     context "validation success" do
+
+      let(:user) { Fabricate(:user) }
+      
       before(:each) do
-        
+        set_current_user(user)
       end
 
       it "creates a review for video with the correct inputs" do

@@ -1,9 +1,10 @@
 require 'spec_helper'
 
 describe VideosController do
-
+  let(:user) { Fabricate(:user) }
+  
   before(:each) do
-    set_current_user
+    set_current_user(user)
   end
 
   describe "GET index" do

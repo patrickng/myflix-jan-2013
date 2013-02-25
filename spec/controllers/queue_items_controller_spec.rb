@@ -3,9 +3,10 @@ require 'spec_helper'
 describe QueueItemsController do
   describe "GET index" do
     let(:video) { Fabricate(:video) }
+    let(:user) { Fabricate(:user) }
 
     before(:each) do
-      set_current_user
+      set_current_user(user)
     end
 
     it "should set the @queue_item variable" do
@@ -14,10 +15,6 @@ describe QueueItemsController do
       queue_item = QueueItem.create(user_id: session[:user_id], video_id: video.id)
       assigns(:queue_items).should == [queue_item]
     end
-
-    # it "should render the index template" do
-    #   response.should render_template :index
-    # end
 
     it_behaves_like "render_template" do
       let(:action) { get :index }
@@ -48,22 +45,18 @@ describe QueueItemsController do
 
   describe "DELETE destroy" do
     context "when user is logged in" do
-      let(:user) { current_user }
+
+      let(:user) { Fabricate(:user) }
       let(:queue_item) { Fabricate(:queue_item, user: user) }
 
       before(:each) do
-        set_current_user
+        set_current_user(user)
       end
 
       it "should not have the queue item" do
         delete :destroy, { id: queue_item.id }
         QueueItem.all.should_not include(queue_item)
       end
-
-      # it "should redirect to my_queue_path" do
-      #   delete :destroy, { id: queue_item.id }
-      #   response.should redirect_to my_queue_path
-      # end
 
       it_behaves_like "redirect_to" do
         let(:action) { delete :destroy, id: queue_item.id }
@@ -84,12 +77,13 @@ describe QueueItemsController do
   end
 
   describe "POST queue_items#update" do
+    let(:user) { Fabricate(:user) }
     let(:queue_item1) { Fabricate(:queue_item, user: current_user, position: 1) }
     let(:queue_item2) { Fabricate(:queue_item, user: current_user, position: 2) }
     let(:queue_item3) { Fabricate(:queue_item, user: current_user, position: 3) }
 
     before(:each) do
-      set_current_user
+      set_current_user(user)
     end
 
     it "sorts queue items by position" do
@@ -105,12 +99,6 @@ describe QueueItemsController do
       current_user.queue_items.reload.should == [queue_item2, queue_item1, queue_item3]
       current_user.queue_items.reload.map(&:position).should == [1, 2, 3]
     end
-
-    # it "redirects to my_queue" do
-    #   post :update, queue_items: { queue_item1.id => { position: 1.5 }, queue_item2.id => { position: 1 }, queue_item3.id => { position: 2 } }
-
-    #   response.should redirect_to my_queue_path
-    # end
 
     it_behaves_like "redirect_to" do
       let(:action) { post :update, queue_items: { queue_item1.id => { position: 1.5 }, queue_item2.id => { position: 1 }, queue_item3.id => { position: 2 } } }
