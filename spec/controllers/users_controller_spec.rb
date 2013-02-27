@@ -9,6 +9,24 @@ describe UsersController do
     end
   end
 
+  describe "GET show" do
+    let(:user) { Fabricate(:user) }
+    let(:video) { Fabricate(:video, title: "Family Guy") }
+
+    before(:each) do
+      set_current_user(user)
+      get :show, id: user.id
+    end
+
+    it "sets the @user variable" do
+      assigns(:user).should == user
+    end
+
+    it "renders the show template" do
+      response.should render_template :show
+    end
+  end
+
   describe "POST create" do
     before(:each) do
       post :create, user: { email_address: "test@test.com", full_name: "test tester", password: "test" }
@@ -34,14 +52,10 @@ describe UsersController do
       User.all.count.should == count
     end
 
-    # it "renders new template when user is not created" do
-    #   post :create, user: { email_address: "", full_name: "", password: "" }
-    #   response.should render_template :new
-    # end
-
-    it_behaves_like "render_template" do
-      let(:action) { post :create, user: { email_address: "", full_name: "", password: "" } }
-      let(:template) { :new }
+    it "renders new template when user is not created" do
+      post :create, user: { email_address: "", full_name: "", password: "" }
+      response.should render_template :new
     end
+
   end
 end

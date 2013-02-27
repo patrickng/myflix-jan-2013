@@ -9,7 +9,7 @@ Myflix::Application.routes.draw do
   post 'login', to: 'sessions#create', as: 'login'
   get 'logout', to: 'sessions#destroy', as: 'logout'
 
-  resources :users, only: [:create]
+  resources :users, only: [:create, :show]
   resources :categories, only: [:index, :show]
 
   resources :videos, only: [:index, :show] do
