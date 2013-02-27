@@ -11,8 +11,6 @@ describe UsersController do
 
   describe "GET show" do
     let(:user) { Fabricate(:user) }
-    let(:video) { Fabricate(:video, title: "Family Guy") }
-    let(:queue_item1) { Fabricate(:queue_item, user: user, video: video) }
 
     before(:each) do
       set_current_user(user)
@@ -21,6 +19,14 @@ describe UsersController do
 
     it "sets the @user variable" do
       assigns(:user).should == user
+    end
+
+    it "sets the @queue_items variable" do
+      assigns(:queue_items).should == user.queue_items
+    end
+
+    it "sets the @reviews variable" do
+      assigns(:reviews).should == user.reviews
     end
 
     it "renders the show template" do
