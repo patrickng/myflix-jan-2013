@@ -1,0 +1,25 @@
+class VideosController < ApplicationController
+<<<<<<< HEAD
+  before_filter :require_user
+  
+=======
+>>>>>>> upstream/master
+  def index
+    @categories = Category.all
+  end
+
+  def show
+    @video = Video.find(params[:id])
+<<<<<<< HEAD
+    @reviews = @video.reviews.order('created_at DESC')
+    @review = Review.new
+  end
+
+  def search
+    @results = Video.search_by_title(params[:search])
+  end
+end
+=======
+  end
+end
+>>>>>>> upstream/master
