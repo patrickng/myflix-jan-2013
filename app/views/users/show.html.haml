@@ -4,7 +4,7 @@
       %article
         %header
           %img(src="http://www.gravatar.com/avatar/#{Digest::MD5.hexdigest('<%= @user.email_address %>'.downcase)}?s=40")
-          %h2= "#{@user.full_name}'s' Queue (#{@user.queue_items.count})"
+          %h2= "#{@user.full_name}'s Queue (#{@user.queue_items.count})"
           %button.btn Follow
         %table.table
           %thead
