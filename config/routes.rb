@@ -1,4 +1,6 @@
 Myflix::Application.routes.draw do
+  get "following_relationships/index"
+
   get 'ui(/:action)', controller: 'ui'
 
   root to: 'static#index'
@@ -8,6 +10,8 @@ Myflix::Application.routes.draw do
   get 'login', to: 'sessions#new'
   post 'login', to: 'sessions#create', as: 'login'
   get 'logout', to: 'sessions#destroy', as: 'logout'
+  get 'people', to: 'following_relationships#index'
+  delete '/people/:id/unfollow', to: 'following_relationships#destroy', as: 'unfollow'
 
   resources :users, only: [:create, :show]
   resources :categories, only: [:index, :show]
