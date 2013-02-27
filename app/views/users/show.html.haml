@@ -12,12 +12,12 @@
               %th(width="30%") Video Title
               %th(width="15%") Genre
           %tbody
-            - 8.times do
+            - @user.queue_items.each do |queue_item|
               %tr
                 %td
-                  = link_to "Futurama"
+                  = link_to queue_item.video.title
                 %td
-                  = link_to "TV Shows"
+                  = raw queue_item.video.categories.collect { |category| link_to category.name, category_path(category) }.join(', ')
 
 %section.user_reviews.container
   .row

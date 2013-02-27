@@ -12,6 +12,7 @@ describe UsersController do
   describe "GET show" do
     let(:user) { Fabricate(:user) }
     let(:video) { Fabricate(:video, title: "Family Guy") }
+    let(:queue_item1) { Fabricate(:queue_item, user: user, video: video) }
 
     before(:each) do
       set_current_user(user)
@@ -24,6 +25,10 @@ describe UsersController do
 
     it "renders the show template" do
       response.should render_template :show
+    end
+
+    it "displays the user's queue" do
+      QueueItem.find_all_by_user_id(current_user).should include(queue_item1)
     end
   end
 

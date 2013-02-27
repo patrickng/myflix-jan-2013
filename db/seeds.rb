@@ -20,6 +20,7 @@ video4 = Video.create(title: "The Walking Dead", description: "In the wake of a 
 
 Categorization.delete_all
 Categorization.create(video_id: video1.id, category_id: category4.id)
+Categorization.create(video_id: video1.id, category_id: category3.id)
 Categorization.create(video_id: video2.id, category_id: category2.id)
 Categorization.create(video_id: video4.id, category_id: category3.id)
 Categorization.create(video_id: video3.id, category_id: category2.id)

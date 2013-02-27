@@ -31,8 +31,7 @@
                     %td
                       = select_tag "queue_items[#{item.id}][rating]", options_for_select(5.downto(1).map { |n| ["#{pluralize(n, "star", "stars")}", n] }, item.user_rating), { include_blank: '' }
                     %td
-                      - item.video.categories.each do |category|
-                        = link_to category.name, category_path(category)
+                      = raw item.video.categories.collect { |category| link_to category.name, category_path(category) }.join(', ')
                     %td
                       = link_to queue_item_path(item), method: :delete, confirm: "Delete from queue?" do
                         %i.icon-remove
