@@ -7,18 +7,16 @@ describe QueueItemsController do
 
     before(:each) do
       set_current_user(user)
+      get :index
     end
 
     it "should set the @queue_item variable" do
-      get :index
-      # require_sign_in
       queue_item = QueueItem.create(user_id: session[:user_id], video_id: video.id)
       assigns(:queue_items).should == [queue_item]
     end
 
-    it_behaves_like "render_template" do
-      let(:action) { get :index }
-      let(:template) { :index }
+    it "should render the index template" do
+      response.should render_template :index
     end
 
     let(:user1) { Fabricate(:user) }
@@ -51,16 +49,15 @@ describe QueueItemsController do
 
       before(:each) do
         set_current_user(user)
+        delete :destroy, { id: queue_item.id }
       end
 
       it "should not have the queue item" do
-        delete :destroy, { id: queue_item.id }
         QueueItem.all.should_not include(queue_item)
       end
 
-      it_behaves_like "redirect_to" do
-        let(:action) { delete :destroy, id: queue_item.id }
-        let(:path) { my_queue_path }
+      it "should redirect to my_queue_path" do
+        response.should redirect_to my_queue_path
       end
     end
 
@@ -100,9 +97,9 @@ describe QueueItemsController do
       current_user.queue_items.reload.map(&:position).should == [1, 2, 3]
     end
 
-    it_behaves_like "redirect_to" do
-      let(:action) { post :update, queue_items: { queue_item1.id => { position: 1.5 }, queue_item2.id => { position: 1 }, queue_item3.id => { position: 2 } } }
-      let(:path) { my_queue_path }
+    it "redirects to my_queue" do
+      post :update, queue_items: { queue_item1.id => { position: 1.5 }, queue_item2.id => { position: 1 }, queue_item3.id => { position: 2 } }
+      response.should redirect_to my_queue_path
     end
 
     it "updates existing video rating" do
