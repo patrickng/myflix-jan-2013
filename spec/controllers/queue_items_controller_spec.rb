@@ -49,7 +49,7 @@ describe QueueItemsController do
 
       before(:each) do
         set_current_user(user)
-        delete :destroy, { id: queue_item.id }
+        delete :destroy, id: queue_item.id
       end
 
       it "should not have the queue item" do

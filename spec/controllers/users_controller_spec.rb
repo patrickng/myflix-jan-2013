@@ -63,6 +63,5 @@ describe UsersController do
       post :create, user: { email_address: "", full_name: "", password: "" }
       response.should render_template :new
     end
-
   end
 end

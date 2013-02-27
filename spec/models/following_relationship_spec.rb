@@ -25,5 +25,4 @@ describe FollowingRelationship do
     its(:follower) { should == follower }
     its(:followed) { should == followed }
   end
-
 end

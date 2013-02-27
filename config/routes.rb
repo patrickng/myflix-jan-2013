@@ -11,6 +11,7 @@ Myflix::Application.routes.draw do
   post 'login', to: 'sessions#create', as: 'login'
   get 'logout', to: 'sessions#destroy', as: 'logout'
   get 'people', to: 'following_relationships#index'
+  post '/people/:id/follow', to: 'following_relationships#create', as: 'follow'
   delete '/people/:id/unfollow', to: 'following_relationships#destroy', as: 'unfollow'
 
   resources :users, only: [:create, :show]
