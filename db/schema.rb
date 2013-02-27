@@ -38,7 +38,7 @@ ActiveRecord::Schema.define(:version => 20130213221926) do
   create_table "reviews", :force => true do |t|
     t.integer  "rating"
     t.integer  "max_rating", :default => 5
-    t.text     "review"
+    t.text     "content"
     t.datetime "created_at",                :null => false
     t.datetime "updated_at",                :null => false
     t.integer  "user_id"

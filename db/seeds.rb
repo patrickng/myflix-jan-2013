@@ -31,15 +31,15 @@ user3 = User.create(full_name: "Vicky Example", email_address: "vicky@example.me
 user4 = User.create(full_name: "Fanny Example", email_address: "fanny@example.me", password: "pretty42")
 user5 = User.create(full_name: "Michael Example", email_address: "michael@example.me", password: "apple69")
 
-Review.delete_all
-Review.create(user_id: user1.id, video_id: video1.id, rating: 5, max_rating: 5, review: "This movie was a great movie!")
-Review.create(user_id: user2.id, video_id: video2.id, rating: 4, max_rating: 5, review: "Family Guy's dry humor and flashback scenes are hilarious!")
-Review.create(user_id: user3.id, video_id: video3.id, rating: 3, max_rating: 5, review: "If you like mildly amusing shows, this is it.")
-Review.create(user_id: user4.id, video_id: video4.id, rating: 2, max_rating: 5, review: "This show is too unrealistic.")
-Review.create(user_id: user5.id, video_id: video1.id, rating: 1, max_rating: 5, review: "This movie was terrible. Do not watch!")
-
 QueueItem.delete_all
 QueueItem.create(user_id: user1.id, video_id: video2.id, position: 1)
 QueueItem.create(user_id: user1.id, video_id: video3.id, position: 2)
 QueueItem.create(user_id: user2.id, video_id: video1.id, position: 1)
 QueueItem.create(user_id: user2.id, video_id: video4.id, position: 2)
+
+Review.delete_all
+Review.create(user_id: user1.id, video_id: video1.id, rating: 5, max_rating: 5, content: "This movie was a great movie!")
+Review.create(user_id: user2.id, video_id: video2.id, rating: 4, max_rating: 5, content: "Family Guy's dry humor and flashback scenes are hilarious!")
+Review.create(user_id: user3.id, video_id: video3.id, rating: 3, max_rating: 5, content: "If you like mildly amusing shows, this is it.")
+Review.create(user_id: user4.id, video_id: video4.id, rating: 2, max_rating: 5, content: "This show is too unrealistic.")
+Review.create(user_id: user5.id, video_id: video1.id, rating: 1, max_rating: 5, content: "This movie was terrible. Do not watch!")
