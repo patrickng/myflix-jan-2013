@@ -26,10 +26,6 @@ describe UsersController do
     it "renders the show template" do
       response.should render_template :show
     end
-
-    it "displays the user's queue" do
-      QueueItem.find_all_by_user_id(current_user).should include(queue_item1)
-    end
   end
 
   describe "POST create" do
