@@ -31,8 +31,6 @@ feature "My Queue" do
 
     click_button "Update Instant Queue"
     
-    find("tr:nth-child(1) td:nth-child(2)").should have_content "Family Guy"
-    find("tr:nth-child(2) td:nth-child(2)").should have_content "Futurama"
     find(:xpath, "//tr[contains(.,'Family Guy')]/td/input")["value"].should == 1.to_s
     find(:xpath, "//tr[contains(.,'Futurama')]/td/input")["value"].should == 2.to_s
   end
