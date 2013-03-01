@@ -9,9 +9,9 @@ feature 'Social Network' do
   given(:family_guy) { Fabricate(:video, title: "Family Guy") }
 
   background do
-    Categorization.create(category_id: comedy.id, video_id: futurama.id)
-    Categorization.create(category_id: comedy.id, video_id: family_guy.id)
-    Review.create(user_id: mike.id, video_id: futurama.id, rating: 5, max_rating: 5, content: "This movie was a great show!")
+    Fabricate(:categorization, category: comedy, video: futurama)
+    Fabricate(:categorization, category: comedy, video: family_guy)
+    Fabricate(:review, user: mike, video: futurama)
   end
 
   scenario "following and unfollowing users" do

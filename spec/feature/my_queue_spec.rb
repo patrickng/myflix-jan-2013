@@ -8,8 +8,8 @@ feature "My Queue" do
   given(:family_guy) { Fabricate(:video, title: "Family Guy") }
 
   background do
-    Categorization.create(category_id: comedy.id, video_id: futurama.id)
-    Categorization.create(category_id: comedy.id, video_id: family_guy.id)
+    Fabricate(:categorization, category: comedy, video: futurama)
+    Fabricate(:categorization, category: comedy, video: family_guy)
   end
 
   scenario "adding and reordering videos in queue" do
