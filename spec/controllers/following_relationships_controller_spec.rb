@@ -38,7 +38,7 @@ describe FollowingRelationshipsController do
     end
 
     it "removes the followed from the follower list" do
-      current_user.following?(followed).should be_nil
+      current_user.following?(followed).should be_false
     end
 
     it "redirects to the people page" do
