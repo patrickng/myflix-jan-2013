@@ -1,5 +1,4 @@
 Myflix::Application.routes.draw do
-  get "following_relationships/index"
 
   get 'ui(/:action)', controller: 'ui'
 

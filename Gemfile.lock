@@ -67,6 +67,8 @@ GEM
     faker (1.1.2)
       i18n (~> 0.5)
     ffi (1.4.0)
+    figaro (0.6.1)
+      rails (>= 3, < 5)
     haml (4.0.0)
       tilt
     haml-rails (0.4)
@@ -188,6 +190,7 @@ DEPENDENCIES
   coffee-rails (~> 3.2.1)
   fabrication
   faker
+  figaro
   haml-rails
   jquery-rails
   launchy

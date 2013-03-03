@@ -5,6 +5,7 @@ gem 'haml-rails'
 gem 'bcrypt-ruby'
 gem 'bootstrap-sass'
 gem 'bootstrap_form'
+gem 'figaro'
 
 group :assets do
   gem 'sass-rails',   '~> 3.2.3'

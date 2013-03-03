@@ -1,0 +1,7 @@
+!!! 5
+%html
+  %body
+    %p Hello #{@user.full_name},
+    %p Welcome to MyFlix!
+    %p Your login is: #{@user.email_address}
+    %p You can log into MyFlix at #{link_to login_path, login_path}

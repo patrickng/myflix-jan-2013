@@ -50,6 +50,22 @@ describe UsersController do
         response.should redirect_to root_path
       end
     end
+
+    context "sending email" do
+      it "sends out the email" do
+        ActionMailer::Base.deliveries.should_not be_empty
+      end
+
+      it "sends the email to the right recipient" do
+        message = ActionMailer::Base.deliveries.last
+        message.to.should == ['test@test.com']
+      end
+
+      it "hasa the right content" do
+        message = ActionMailer::Base.deliveries.last
+        message.body.should include('Welcome to MyFlix!')
+      end
+    end
   end
 
   context "user is not saved" do
