@@ -6,6 +6,7 @@ gem 'bcrypt-ruby'
 gem 'bootstrap-sass'
 gem 'bootstrap_form'
 gem 'figaro'
+gem 'thin'
 
 group :assets do
   gem 'sass-rails',   '~> 3.2.3'
@@ -24,7 +25,6 @@ end
 
 group :development do
   gem 'sqlite3'
-  gem 'thin'
   gem 'better_errors'
 end
 
