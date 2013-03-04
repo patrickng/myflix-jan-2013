@@ -11,6 +11,7 @@
           = password_field_tag :password
         %fieldset.action
           = submit_tag "Sign in", class: 'btn'
+          = link_to "Forgot your password?", password_reset_path, class_name: "password_reset"
 
         / %form.sign_in
         /   %header

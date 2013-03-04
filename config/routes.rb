@@ -1,11 +1,9 @@
 Myflix::Application.routes.draw do
-
   get 'ui(/:action)', controller: 'ui'
 
   root to: 'static#index'
 
   get 'home', to: 'videos#index'
-  get 'register', to: 'users#new'
   get 'login', to: 'sessions#new'
   post 'login', to: 'sessions#create', as: 'login'
   get 'logout', to: 'sessions#destroy', as: 'logout'
@@ -13,9 +11,15 @@ Myflix::Application.routes.draw do
   post '/people/:id/follow', to: 'following_relationships#create', as: 'follow'
   delete '/people/:id/unfollow', to: 'following_relationships#destroy', as: 'unfollow'
 
+  get 'register', to: 'users#new'
   resources :users, only: [:create, :show]
-  resources :categories, only: [:index, :show]
 
+  get 'password_reset', to: 'password_reset#index'
+  post 'password_reset', to: 'password_reset#create', as: 'create_password_reset'
+  get 'password_reset/:id', to: 'password_reset#edit', as: 'edit_password_reset'
+  put 'password_reset/:id', to: 'password_reset#update', as: 'update_password_reset'
+
+  resources :categories, only: [:index, :show]
   resources :videos, only: [:index, :show] do
     collection do
       post 'search'

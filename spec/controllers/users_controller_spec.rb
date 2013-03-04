@@ -57,13 +57,11 @@ describe UsersController do
       end
 
       it "sends the email to the right recipient" do
-        message = ActionMailer::Base.deliveries.last
-        message.to.should == ['test@test.com']
+        last_email.to.should == ['test@test.com']
       end
 
-      it "hasa the right content" do
-        message = ActionMailer::Base.deliveries.last
-        message.body.should include('Welcome to MyFlix!')
+      it "has the right content" do
+        last_email.body.should include('Welcome to MyFlix!')
       end
     end
   end

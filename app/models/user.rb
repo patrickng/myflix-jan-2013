@@ -25,4 +25,26 @@ class User < ActiveRecord::Base
   def unfollow!(other_user)
     following_relationships.find_by_followed_id(other_user.id).destroy
   end
+
+  def generate_token
+    begin
+      token = SecureRandom.urlsafe_base64
+    end while User.where(password_reset_token: token).exists?
+    self.password_reset_token = token
+  end
+
+  def send_password_reset_email
+    generate_token
+    self.password_reset_sent_at = Time.zone.now
+    self.save!(validate: false)
+    UserMailer.password_reset(self).deliver
+  end
+
+  def token_expired?
+    self.password_reset_sent_at < 15.minutes.ago
+  end
+
+  def clear_token
+    self.password_reset_token = self.password_reset_sent_at = nil
+  end
 end

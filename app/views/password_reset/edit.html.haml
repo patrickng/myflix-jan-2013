@@ -1,0 +1,11 @@
+%section.reset_password.container
+  .row
+    .span10.offset1
+      = form_for @user, url: update_password_reset_path(params[:id]) do |f|
+        %header
+          %h1 Reset Your Password
+        %fieldset
+          = f.label :password, "New Password"
+          = f.text_field :password
+        %fieldset.action
+          = f.submit "Reset Password", class: 'btn'
