@@ -33,7 +33,6 @@ describe User do
   it { should respond_to(:generate_token) }
   it { should respond_to(:send_password_reset_email) }
   it { should respond_to(:token_expired?) }
-  it { should respond_to(:clear_token) }
 
   describe "follow actions" do
     let(:user) { Fabricate(:user) }    
@@ -79,12 +78,6 @@ describe User do
 
     it "checks if token is expired and returns a boolean value" do
       user.token_expired?.should be_false
-    end
-
-    it "clears password_reset_token and password_reset_sent_at" do
-      user.clear_token
-      user.password_reset_token.should be_nil
-      user.password_reset_sent_at.should be_nil
     end
   end
 
