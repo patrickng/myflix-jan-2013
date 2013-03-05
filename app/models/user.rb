@@ -46,5 +46,6 @@ class User < ActiveRecord::Base
 
   def clear_token
     self.password_reset_token = self.password_reset_sent_at = nil
+    self.save!(validate: false)
   end
 end
