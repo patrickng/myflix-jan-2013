@@ -30,7 +30,7 @@ class PasswordResetController < ApplicationController
     @user = User.find_by_password_reset_token(params[:token])
 
     if @user.update_attributes(password: params[:password])
-      @user.password_reset_token = nil
+      @user.clear_password_reset_token
       @user.save(validate: false)
       redirect_to login_path, flash: { success: "Password has been reset!" }
     else

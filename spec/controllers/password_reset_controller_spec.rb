@@ -104,7 +104,7 @@ describe PasswordResetController do
     context "when token is valid" do
       before(:each) do
         user.send_password_reset_email
-        put :update, token: user.password_reset_token, user: { password: "test" }
+        put :update, token: user.password_reset_token, password: "test"
         user.reload
       end
 
@@ -118,6 +118,11 @@ describe PasswordResetController do
 
       it "should change the password" do
         user.authenticate("test").should be_true
+      end
+
+      it "should unset password_reset_token" do
+        user.clear_password_reset_token
+        user.password_reset_token.should be_nil
       end
     end
   end
