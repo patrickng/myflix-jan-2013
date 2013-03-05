@@ -69,7 +69,7 @@ describe PasswordResetController do
     before(:each) do
       post :create, email_address: user.email_address
       user.reload
-      get :edit, id: user.password_reset_token
+      get :edit, token: user.password_reset_token
     end
 
     it "should set the @user variable" do
@@ -85,7 +85,7 @@ describe PasswordResetController do
         user.send_password_reset_email
         user.update_attribute("password_reset_sent_at", 20.minutes.ago)
         user.reload
-        get :edit, id: user.password_reset_token
+        get :edit, token: user.password_reset_token
       end
 
       it "should redirect to password_reset_path" do
@@ -104,7 +104,7 @@ describe PasswordResetController do
     context "when token is valid" do
       before(:each) do
         user.send_password_reset_email
-        put :update, id: user.password_reset_token, user: { password: "test" }
+        put :update, token: user.password_reset_token, user: { password: "test" }
         user.reload
       end
 

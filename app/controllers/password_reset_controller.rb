@@ -13,12 +13,12 @@ class PasswordResetController < ApplicationController
   end
 
   def edit
-    @user = User.find_by_password_reset_token(params[:id])
+    @user = User.find_by_password_reset_token(params[:token])
     redirect_to password_reset_path, flash: { error: "Password reset token is invalid or has expired. Request a new password reset email." } if @user.token_expired?
   end
 
   def update
-    @user = User.find_by_password_reset_token(params[:id])
+    @user = User.find_by_password_reset_token(params[:token])
 
     if @user.update_attributes(params[:user])
       redirect_to login_path, flash: { success: "Password has been reset!" }
