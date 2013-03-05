@@ -10,7 +10,7 @@ class User < ActiveRecord::Base
   has_many :followed_users, through: :following_relationships, source: :followed
   has_many :following_relationships, foreign_key: "follower_id", dependent: :destroy
 
-  before_create { generate_token(:password_reset_token) }
+  before_create { generate_token }
 
   def has_in_queue?(video)
     queue_items.map(&:video).include?(video)
