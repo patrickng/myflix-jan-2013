@@ -43,9 +43,4 @@ class User < ActiveRecord::Base
   def token_expired?
     self.password_reset_sent_at < 15.minutes.ago
   end
-
-  def clear_token
-    self.password_reset_token = self.password_reset_sent_at = nil
-    self.save!(validate: false)
-  end
 end
