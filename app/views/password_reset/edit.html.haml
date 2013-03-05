@@ -1,11 +1,11 @@
 %section.reset_password.container
   .row
     .span10.offset1
-      = form_for @user, url: update_password_reset_path(params[:token]) do |f|
+      = form_tag update_password_reset_path(@token), method: :put, class: "sign_in" do |f|
         %header
           %h1 Reset Your Password
         %fieldset
-          = f.label :password, "New Password"
-          = f.password_field :password
+          = label_tag :password, "New Password"
+          = password_field_tag :password
         %fieldset.action
-          = f.submit "Reset Password", class: 'btn'
+          = submit_tag "Reset Password", class: 'btn'
