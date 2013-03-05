@@ -15,8 +15,12 @@ class PasswordResetController < ApplicationController
   def edit
     @user = User.find_by_password_reset_token(params[:id])
 
-    if @user.token_expired? || !@user.token_exist?
-      @user.clear_token
+    if @user.token_exist?
+      if @user.token_expired?
+        @user.clear_token
+        redirect_to password_reset_path, flash: { error: "Password reset token is invalid or has expired. Request a new password reset email." }
+      end
+    elsif !@user.token_exist?
       redirect_to password_reset_path, flash: { error: "Password reset token is invalid or has expired. Request a new password reset email." }
     end
   end
