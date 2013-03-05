@@ -48,4 +48,8 @@ class User < ActiveRecord::Base
     self.password_reset_token = self.password_reset_sent_at = nil
     self.save!(validate: false)
   end
+
+  def token_exist?
+    !self.password_reset_token.nil?
+  end
 end
