@@ -40,10 +40,12 @@ ActiveRecord::Schema.define(:version => 20130306000311) do
 
   create_table "invitations", :force => true do |t|
     t.integer  "sender_id"
-    t.string   "recipient_email"
+    t.string   "recipient_full_name"
+    t.string   "recipient_email_address"
+    t.text     "recipient_message"
     t.datetime "sent_at"
-    t.datetime "created_at",      :null => false
-    t.datetime "updated_at",      :null => false
+    t.datetime "created_at",              :null => false
+    t.datetime "updated_at",              :null => false
   end
 
   create_table "queue_items", :force => true do |t|

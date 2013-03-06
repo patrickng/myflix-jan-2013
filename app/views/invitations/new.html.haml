@@ -1,2 +1,15 @@
-%h1 Invitations#new
-%p Find me in app/views/invitations/new.html.haml
+%section.invite.container
+  .row
+    .span10.offset1
+      = form_for @invitation, class: "invite" do |f|
+        %header
+          %h1 Invite a friend to join MyFlix!
+        %fieldset
+          = f.label :recipient_full_name, "Friend's Name"
+          = f.text_field :recipient_full_name
+          = f.label :recipient_email_address, "Friend's Email Address"
+          = f.email_field :recipient_full_name
+          = f.label :recipient_message, "Invitation Message"
+          = f.text_area :recipient_message, value: "Please join this really cool site!", rows: 6, class: "span4"
+        %fieldset.action
+          = f.submit "Send Invitation", class: "btn"
