@@ -1,4 +1,8 @@
 Myflix::Application.routes.draw do
+  get "invitations/new"
+
+  get "invitations/create"
+
   get 'ui(/:action)', controller: 'ui'
 
   root to: 'static#index'

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130304002708) do
+ActiveRecord::Schema.define(:version => 20130306000311) do
 
   create_table "categories", :force => true do |t|
     t.string   "name"
@@ -37,6 +37,14 @@ ActiveRecord::Schema.define(:version => 20130304002708) do
   add_index "following_relationships", ["followed_id"], :name => "index_following_relationships_on_followed_id"
   add_index "following_relationships", ["follower_id", "followed_id"], :name => "index_following_relationships_on_follower_id_and_followed_id", :unique => true
   add_index "following_relationships", ["follower_id"], :name => "index_following_relationships_on_follower_id"
+
+  create_table "invitations", :force => true do |t|
+    t.integer  "sender_id"
+    t.string   "recipient_email"
+    t.datetime "sent_at"
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
+  end
 
   create_table "queue_items", :force => true do |t|
     t.integer  "user_id"
@@ -64,6 +72,8 @@ ActiveRecord::Schema.define(:version => 20130304002708) do
     t.datetime "updated_at",             :null => false
     t.string   "password_reset_token"
     t.datetime "password_reset_sent_at"
+    t.integer  "invitation_id"
+    t.integer  "invitation_limit"
   end
 
   create_table "videos", :force => true do |t|

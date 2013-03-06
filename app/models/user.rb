@@ -10,6 +10,11 @@ class User < ActiveRecord::Base
   has_many :followed_users, through: :following_relationships, source: :followed
   has_many :following_relationships, foreign_key: "follower_id", dependent: :destroy
 
+  has_many :send_invitations, class_name: 'Invitation', foreign_key: 'sender_id'
+  belongs_to :invitation
+
+  before_create :send_invitation_limit
+
   def has_in_queue?(video)
     queue_items.map(&:video).include?(video)
   end
@@ -46,5 +51,11 @@ class User < ActiveRecord::Base
 
   def clear_password_reset_token
     self.password_reset_token = nil
+  end
+
+  private
+
+  def set_invitation_limit
+    self.invitation_limit = 5
   end
 end
