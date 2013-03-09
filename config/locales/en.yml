@@ -3,3 +3,10 @@
 
 en:
   hello: "Hello world"
+  activerecord:
+    errors:
+      models:
+        invitation:
+          attributes:
+            recipient_email_address:
+              taken: "has already been invited"
