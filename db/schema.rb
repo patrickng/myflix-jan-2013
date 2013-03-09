@@ -43,6 +43,7 @@ ActiveRecord::Schema.define(:version => 20130306000311) do
     t.string   "recipient_full_name"
     t.string   "recipient_email_address"
     t.text     "recipient_message"
+    t.string   "token"
     t.datetime "sent_at"
     t.datetime "created_at",              :null => false
     t.datetime "updated_at",              :null => false

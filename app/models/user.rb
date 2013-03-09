@@ -1,4 +1,6 @@
 class User < ActiveRecord::Base
+  include Tokenable
+
   has_secure_password
 
   validates :full_name, presence: true
@@ -10,10 +12,8 @@ class User < ActiveRecord::Base
   has_many :followed_users, through: :following_relationships, source: :followed
   has_many :following_relationships, foreign_key: "follower_id", dependent: :destroy
 
-  has_many :send_invitations, class_name: 'Invitation', foreign_key: 'sender_id'
+  has_many :sent_invitations, class_name: "Invitation", foreign_key: "sender_id", dependent: :destroy
   belongs_to :invitation
-
-  before_create :send_invitation_limit
 
   def has_in_queue?(video)
     queue_items.map(&:video).include?(video)
@@ -31,18 +31,10 @@ class User < ActiveRecord::Base
     following_relationships.find_by_followed_id(other_user.id).destroy
   end
 
-  def generate_token
-    begin
-      token = SecureRandom.urlsafe_base64
-    end while User.where(password_reset_token: token).exists?
-    self.password_reset_token = token
-  end
-
-  def send_password_reset_email
-    generate_token
+  def generate_and_store_password_token
+    generate_password_token
     self.password_reset_sent_at = Time.zone.now
     self.save!(validate: false)
-    UserMailer.password_reset(self).deliver
   end
 
   def token_expired?
@@ -53,9 +45,19 @@ class User < ActiveRecord::Base
     self.password_reset_token = nil
   end
 
-  private
-
-  def set_invitation_limit
-    self.invitation_limit = 5
+  def invitation_token
+    invitation.token if invitation
   end
+
+  def invitation_token=(token)
+    self.invitation = Invitation.find_by_token(token)
+  end
+
+  # Uncomment for invitation limit
+  # before_create :set_invitation_limit
+  #
+  # private
+  # def set_invitation_limit
+  #   self.invitation_limit = 5
+  # end
 end

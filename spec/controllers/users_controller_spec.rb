@@ -2,10 +2,30 @@ require 'spec_helper'
 
 describe UsersController do
   describe "GET new" do
-    it "sets the @user variable" do
-      get :new
-      assigns(:user).should be_new_record
-      assigns(:user).should be_instance_of(User)
+    context "without invitation token" do
+      it "sets the @user variable" do
+        get :new
+        assigns(:user).should be_new_record
+        assigns(:user).should be_instance_of(User)
+      end
+    end
+
+    context "with invitation token" do
+      let(:user1) { Fabricate(:user) }
+      let(:user2) { Fabricate(:user) }
+      let(:user3) { Fabricate(:user, invitation_id: invitation1.id) }
+      let(:invitation1) { Fabricate(:invitation, sender: user1) }
+      let(:invitation2) { Fabricate(:invitation, sender: user1) }
+
+      it "has not been used" do
+        get :new
+        User.find_by_invitation_id(Invitation.find_by_token(invitation2.token)).should be_nil
+      end
+
+      it "has been used" do
+        get :new
+        user3.invitation.token.should_not be_nil
+      end
     end
   end
 
@@ -39,6 +59,10 @@ describe UsersController do
       post :create, user: { email_address: "test@test.com", full_name: "test tester", password: "test" }
     end
 
+    after do
+      ActionMailer::Base.deliveries.clear
+    end
+
     context "user is saved" do
       it "creates the user successfully" do
         User.last.email_address.should == "test@test.com"
@@ -68,9 +92,8 @@ describe UsersController do
 
   context "user is not saved" do
     it "does not create the account" do
-      count = User.all.count
       post :create, user: { email_address: "test@test.com" }
-      User.all.count.should == count
+      User.all.count.should == 0
     end
 
     it "renders new template when user is not created" do

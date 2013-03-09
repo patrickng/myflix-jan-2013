@@ -16,6 +16,7 @@ Myflix::Application.routes.draw do
   delete '/people/:id/unfollow', to: 'following_relationships#destroy', as: 'unfollow'
 
   get 'register', to: 'users#new'
+  get 'register/:invitation_token', to: 'users#new', as: 'register_with_invite'
   resources :users, only: [:create, :show]
 
   get 'password_reset', to: 'password_reset#index'
@@ -23,7 +24,8 @@ Myflix::Application.routes.draw do
   get 'password_reset/:token', to: 'password_reset#edit', as: 'edit_password_reset'
   put 'password_reset/:token', to: 'password_reset#update', as: 'update_password_reset'
 
-  resources :invitations
+  get 'invite', to: 'invitations#new'
+  resources :invitations, only: [:new, :create]
 
   resources :categories, only: [:index, :show]
   resources :videos, only: [:index, :show] do

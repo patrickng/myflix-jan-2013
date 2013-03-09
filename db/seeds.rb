@@ -62,3 +62,7 @@ FollowingRelationship.create(follower_id: user1.id, followed_id: user2.id)
 FollowingRelationship.create(follower_id: user1.id, followed_id: user3.id)
 FollowingRelationship.create(follower_id: user1.id, followed_id: user4.id)
 FollowingRelationship.create(follower_id: user1.id, followed_id: user5.id)
+
+
+# Invitations
+Invitation.create(sender_id: user1.id, recipient_full_name: "Jane Hoo", recipient_email_address: "jane@example.com", recipient_message: "Hey this was the site I was talking about.", sent_at: Time.zone.now, token: "asdf")

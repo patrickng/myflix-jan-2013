@@ -12,13 +12,13 @@ describe PasswordResetController do
   describe "POST create" do
     let(:user) { Fabricate(:user) }
 
-    before(:each) do
-      ActionMailer::Base.deliveries.clear
-    end
-
     context "when a user is not found" do
       before(:each) do
         post :create, email_address: "user@doesnotexist.com"
+      end
+
+      after do
+        ActionMailer::Base.deliveries.clear
       end
 
       it "should not send the email" do
@@ -39,6 +39,10 @@ describe PasswordResetController do
         post :create, email_address: user.email_address
       end
 
+      after do
+        ActionMailer::Base.deliveries.clear
+      end
+
       it "should send the email" do
         ActionMailer::Base.deliveries.should_not be_empty
       end
@@ -49,16 +53,6 @@ describe PasswordResetController do
 
       it "should show notice message" do
         flash[:notice].should have_content "Email sent with instructions to reset your password."
-      end
-    end
-
-    context "sending password reset email" do
-      before(:each) do
-        user.send_password_reset_email
-      end
-
-      it "should include the token in the password reset link" do
-        last_email.body.encoded.should include(edit_password_reset_path(user.password_reset_token))
       end
     end
   end
@@ -82,10 +76,14 @@ describe PasswordResetController do
 
     context "when token is expired" do
       before(:each) do
-        user.send_password_reset_email
+        user.generate_and_store_password_token
         user.update_attribute("password_reset_sent_at", 20.minutes.ago)
         user.reload
         get :edit, token: user.password_reset_token
+      end
+
+      after do
+        ActionMailer::Base.deliveries.clear
       end
 
       it "should redirect to password_reset_path" do
@@ -103,7 +101,7 @@ describe PasswordResetController do
 
     context "when token is valid" do
       before(:each) do
-        user.send_password_reset_email
+        user.generate_and_store_password_token
         put :update, token: user.password_reset_token, password: "test"
         user.reload
       end

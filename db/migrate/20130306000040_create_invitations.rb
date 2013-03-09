@@ -5,6 +5,7 @@ class CreateInvitations < ActiveRecord::Migration
       t.string :recipient_full_name
       t.string :recipient_email_address
       t.text :recipient_message
+      t.string :token
       t.datetime :sent_at
 
       t.timestamps
