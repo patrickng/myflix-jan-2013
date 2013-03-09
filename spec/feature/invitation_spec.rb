@@ -14,6 +14,7 @@ feature "User Invitation" do
     click_button "Send Invitation"
 
     last_email.to.should == ["jane@example.me"]
+    last_email.body.encoded.should include("Jane Example")
     last_email.body.encoded.should include(register_with_invite_path(Invitation.first.token))
 
     visit register_with_invite_path(Invitation.first.token)

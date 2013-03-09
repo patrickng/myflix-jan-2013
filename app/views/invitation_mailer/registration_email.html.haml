@@ -2,5 +2,5 @@
 %html
   %body
     %p Hello #{@invitation.recipient_full_name},
-    %p Your friend #{@invitation.sender} has invited you to join MyFlix!
+    %p Your friend #{@invitation.sender.full_name} has invited you to join MyFlix!
     %p Your special registration link is: #{register_with_invite_url(@invitation.token)}
