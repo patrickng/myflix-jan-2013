@@ -70,11 +70,11 @@ Myflix::Application.configure do
   config.action_mailer.delivery_method = :smtp
 
   config.action_mailer.smtp_settings = {
-    :address              => "smtp.gmail.com",
-    :port                 => 587,
+    :address              => ENV['MAILGUN_SMTP_SERVER'],
+    :port                 => ENV['MAILGUN_SMTP_PORT'],
     :domain               => 'mighty-anchorage-4285.herokuapp.com',
-    :user_name            => ENV['GMAIL_USERNAME'],
-    :password             => ENV['GMAIL_PASSWORD'],
+    :user_name            => ENV['MAILGUN_SMTP_LOGIN'],
+    :password             => ENV['MAILGUN_SMTP_PASSWORD'],
     :authentication       => 'plain',
-    :enable_starttls_auto => true  }
+  }
 end
