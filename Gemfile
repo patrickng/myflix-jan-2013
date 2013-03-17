@@ -11,6 +11,7 @@ gem 'unicorn'
 gem 'sidekiq'
 gem 'sinatra'
 gem 'slim'
+gem 'newrelic_rpm'
 
 group :assets do
   gem 'sass-rails',   '~> 3.2.3'
