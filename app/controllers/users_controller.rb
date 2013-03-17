@@ -24,12 +24,12 @@ class UsersController < ApplicationController
     @user = User.new(params[:user])
     
     if @user.save
-      UserMailer.welcome_email(@user).deliver
+      UserMailer.delay.welcome_email(@user.id)
       if @user.invitation
         @user.follow!(@user.invitation.sender)
         @user.invitation.sender.follow!(@user)
       end
-      redirect_to root_path
+      redirect_to login_path
     else
       render 'new'
     end

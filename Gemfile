@@ -6,7 +6,10 @@ gem 'bcrypt-ruby'
 gem 'bootstrap-sass'
 gem 'bootstrap_form'
 gem 'figaro'
-gem 'thin'
+gem 'unicorn'
+gem 'sidekiq'
+gem 'sinatra', require: false
+gem 'slim'
 
 group :assets do
   gem 'sass-rails',   '~> 3.2.3'
@@ -21,16 +24,17 @@ group :test, :development do
   gem 'faker'
   gem 'pry'
   gem 'pry-nav'
+  gem 'launchy'
 end
 
 group :development do
   gem 'sqlite3'
   gem 'better_errors'
+  gem 'letter_opener'
 end
 
 group :test do
   gem 'capybara'
-  gem 'launchy'
 end
 
 group :production do

@@ -6,7 +6,7 @@ class PasswordResetController < ApplicationController
     user = User.find_by_email_address(params[:email_address])
     if user.present?
       user.generate_and_store_password_token
-      UserMailer.password_reset(user).deliver
+      UserMailer.delay.password_reset(user.id)
       redirect_to root_path, flash: { notice: "Email sent with instructions to reset your password." }
     else
       redirect_to root_path, flash: { error: "No such email." }

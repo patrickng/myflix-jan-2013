@@ -1,11 +1,9 @@
+require 'sidekiq/web'
+
 Myflix::Application.routes.draw do
-  get "invitations/new"
-
-  get "invitations/create"
-
   get 'ui(/:action)', controller: 'ui'
-
   root to: 'static#index'
+  mount Sidekiq::Web, at: '/sidekiq'
 
   get 'home', to: 'videos#index'
   get 'login', to: 'sessions#new'

@@ -8,8 +8,15 @@ describe InvitationsController do
   end
 
   describe "GET new" do
-    it "renders the new template" do
+    before(:each) do
       get :new
+    end
+    
+    it "sets the @invitation variable" do
+      assigns(:invitation).should be_new_record
+    end
+
+    it "renders the new template" do
       response.should render_template :new
     end
   end
@@ -24,10 +31,11 @@ describe InvitationsController do
         ActionMailer::Base.deliveries.clear
       end
 
-      it "creates the invitation" do
+      it "creates an invitation" do
         Invitation.last.recipient_full_name.should == "Jack Example"
         Invitation.last.recipient_email_address.should == "jack@example.me"
         Invitation.last.recipient_message.should == "Check out this site!"
+        Invitation.last.sender.should == user
       end
 
       it "should have a token" do

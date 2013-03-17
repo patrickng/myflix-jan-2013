@@ -70,8 +70,8 @@ describe UsersController do
         User.last.authenticate('test').should be_true
       end
 
-      it "redirects user to root" do
-        response.should redirect_to root_path
+      it "redirects user to login_path" do
+        response.should redirect_to login_path
       end
     end
 
