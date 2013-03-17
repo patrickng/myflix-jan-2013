@@ -6,8 +6,9 @@ gem 'bcrypt-ruby'
 gem 'bootstrap-sass'
 gem 'bootstrap_form'
 gem 'figaro'
+gem 'unicorn'
 gem 'sidekiq'
-gem 'sinatra', require: false
+gem 'sinatra'
 gem 'slim'
 
 group :assets do
