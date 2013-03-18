@@ -1,7 +1,7 @@
 source "https://rubygems.org"
 ruby '2.0.0'
 
-gem 'rails', '3.2.12'
+gem 'rails', '3.2.13'
 gem 'haml-rails'
 gem 'bcrypt-ruby'
 gem 'bootstrap-sass'
@@ -11,7 +11,6 @@ gem 'unicorn'
 gem 'sidekiq'
 gem 'sinatra'
 gem 'slim'
-gem 'newrelic_rpm'
 
 group :assets do
   gem 'sass-rails',   '~> 3.2.3'
@@ -42,6 +41,7 @@ end
 group :production do
   gem 'pg'
   gem 'sentry-raven'
+  gem 'newrelic_rpm'
 end
 
 gem 'jquery-rails'
