@@ -55,50 +55,58 @@ describe UsersController do
   end
 
   describe "POST create" do
-    before(:each) do
-      post :create, user: { email_address: "test@test.com", full_name: "test tester", password: "test" }
+    context "without invitation token" do
+      before(:each) do
+        post :create, user: { email_address: "test@test.com", full_name: "test tester", password: "test" }
+      end
+
+      after do
+        ActionMailer::Base.deliveries.clear
+      end
+
+      context "user is saved" do
+        it "creates the user successfully" do
+          User.last.email_address.should == "test@test.com"
+          User.last.full_name.should == "test tester"
+          User.last.authenticate('test').should be_true
+        end
+
+        it "redirects user to login_path" do
+          response.should redirect_to login_path
+        end
+      end
+
+      context "sending email" do
+        it "sends out the email" do
+          ActionMailer::Base.deliveries.should_not be_empty
+        end
+
+        it "sends the email to the right recipient" do
+          last_email.to.should == ['test@test.com']
+        end
+
+        it "has the right content" do
+          last_email.body.should include('Welcome to MyFlix!')
+        end
+      end
     end
 
-    after do
-      ActionMailer::Base.deliveries.clear
-    end
-
-    context "user is saved" do
-      it "creates the user successfully" do
-        User.last.email_address.should == "test@test.com"
-        User.last.full_name.should == "test tester"
-        User.last.authenticate('test').should be_true
+    context "user is not saved" do
+      it "does not create the account" do
+        post :create, user: { email_address: "test@test.com" }
+        User.all.count.should == 0
       end
 
-      it "redirects user to login_path" do
-        response.should redirect_to login_path
-      end
-    end
-
-    context "sending email" do
-      it "sends out the email" do
-        ActionMailer::Base.deliveries.should_not be_empty
-      end
-
-      it "sends the email to the right recipient" do
-        last_email.to.should == ['test@test.com']
-      end
-
-      it "has the right content" do
-        last_email.body.should include('Welcome to MyFlix!')
+      it "renders new template when user is not created" do
+        post :create, user: { email_address: "", full_name: "", password: "" }
+        response.should render_template :new
       end
     end
   end
 
-  context "user is not saved" do
-    it "does not create the account" do
-      post :create, user: { email_address: "test@test.com" }
-      User.all.count.should == 0
-    end
-
-    it "renders new template when user is not created" do
-      post :create, user: { email_address: "", full_name: "", password: "" }
-      response.should render_template :new
+  context "without invitation token" do
+    it "should follow users in both directions" do
+        
     end
   end
 end

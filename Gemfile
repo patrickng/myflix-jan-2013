@@ -9,8 +9,10 @@ gem 'bootstrap_form'
 gem 'figaro'
 gem 'unicorn'
 gem 'sidekiq'
-gem 'sinatra'
+gem 'sinatra', require: false
 gem 'slim'
+gem 'newrelic_rpm'
+gem 'foreman'
 
 group :assets do
   gem 'sass-rails',   '~> 3.2.3'
@@ -19,8 +21,9 @@ group :assets do
 end
 
 group :test, :development do
+  gem 'rspec'
   gem 'rspec-rails'
-  gem 'shoulda-matchers'
+  gem 'shoulda-matchers', github: "thoughtbot/shoulda-matchers", branch: "dc-bourne-dependency"
   gem 'fabrication'
   gem 'faker'
   gem 'pry'
@@ -41,7 +44,6 @@ end
 group :production do
   gem 'pg'
   gem 'sentry-raven'
-  gem 'newrelic_rpm'
 end
 
 gem 'jquery-rails'
