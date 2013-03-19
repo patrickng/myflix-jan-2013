@@ -29,7 +29,7 @@ class UsersController < ApplicationController
         @user.follow!(@user.invitation.sender)
         @user.invitation.sender.follow!(@user)
       end
-      redirect_to login_path
+      redirect_to login_path, flash: { notice: "You have successfully signed up. Please sign in."}
     else
       render 'new'
     end
