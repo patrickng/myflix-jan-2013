@@ -23,7 +23,7 @@ end
 group :test, :development do
   gem 'rspec'
   gem 'rspec-rails'
-  gem 'shoulda-matchers', github: "thoughtbot/shoulda-matchers", branch: "dc-bourne-dependency"
+  gem 'shoulda-matchers', github: "thoughtbot/shoulda-matchers"
   gem 'fabrication'
   gem 'faker'
   gem 'pry'
