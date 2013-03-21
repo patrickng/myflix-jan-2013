@@ -1,8 +1,10 @@
-class Admin::VideosController < ApplicationController
+class Admin::VideosController < AdminController
   def index
   end
 
   def new
+    @categories = Category.all
+    @video = Video.new
   end
 
   def create
