@@ -8,6 +8,9 @@ class Video < ActiveRecord::Base
   has_many :instant_queue
   has_many :queue_items
 
+  mount_uploader :large_cover, LargeCoverImageUploader
+  mount_uploader :small_cover, SmallCoverImageUploader
+
   def self.search_by_title(title)
     if title.blank?
       []

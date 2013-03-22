@@ -2,6 +2,24 @@ require 'spec_helper'
 
 describe Admin::VideosController do
   describe "GET index" do
+    let(:user) { Fabricate(:user, admin: true) }
+
+    before(:each) do
+      set_current_user(user)
+    end
+
+    it "sets the @videos variable" do
+      video1 = Fabricate(:video)
+      video2 = Fabricate(:video)
+
+      get :index
+      assigns(:videos).should == [video1, video2]
+    end
+
+    it "renders the index template" do
+      get :index
+      response.should render_template :index
+    end
   end
 
   describe "GET new" do
@@ -24,8 +42,6 @@ describe Admin::VideosController do
 
   describe "POST create" do
     let(:user) { Fabricate(:user, admin: true) }
-    let(:small_image) { { :small_image => fixture_file_upload('/family_guy.jpg', 'image/jpeg') } }
-    let(:large_image) { { :large_image => fixture_file_upload('/family_guy_large.jpg', 'image/jpeg') } }
     let(:category) { Fabricate(:category, name: "Test Category") }
 
     before(:each) do
@@ -33,20 +49,102 @@ describe Admin::VideosController do
     end
 
     it "creates the video successfully" do
-      post :create, video: { title: "Test Video", category_id: "1", description: "Just a test video entry", large_cover_img: large_image, small_cover_img: small_image }
+      post :create, category: { id: category.id }, video: { title: "Test Video", description: "Just a test video entry" }
+
       Video.last.title.should == "Test Video"
       Video.last.description.should == "Just a test video entry"
-      Video.last.large_cover_url.should_not be_nil
-      Video.last.small_cover_url.should_not be_nil
+      Video.last.categories.should == [category]
+      response.should redirect_to video_path(Video.last)
+    end
+
+    it "fails to create the video" do
+      post :create, category: { id: category.id }, video: { title: "", description: "" }
+
+      Video.all.count.should == 0
+      response.should render_template :new
     end
   end
 
   describe "GET edit" do
+    let(:user) { Fabricate(:user, admin: true) }
+    let(:video) { Fabricate(:video) }
+
+    before(:each) do
+      set_current_user(user)
+      get :edit, id: video.id
+    end
+
+    it "sets the @video variable" do
+      assigns(:video).should == video
+    end
+
+    it "renders the edit template" do
+      response.should render_template :edit
+    end
   end
 
   describe "PUT update" do
+    let(:user) { Fabricate(:user, admin: true) }
+    let(:video) { Fabricate(:video, title: "Test", description: "test") }
+    let(:category) { Fabricate(:category) }
+
+    before(:each) do
+      set_current_user(user)
+    end
+
+    context "successful update" do
+
+      before(:each) do
+        put :update, id: video.id, category: { id: category.id }, video: { title: "Test Video", description: "Just a test video entry" }
+      end
+
+      it "should update the video entry" do
+        Video.last.title.should == "Test Video"
+        Video.last.description.should == "Just a test video entry"
+      end
+
+      it "should show success message" do
+        flash[:success].should have_content "Video updated!"
+      end
+
+      it "should redirect to @video" do
+        response.should redirect_to video_path(Video.last)
+      end
+    end
+
+    context "unsuccessful update" do
+      before(:each) do
+        put :update, id: video.id, category: { id: category.id }, video: { title: "", description: "" }
+      end
+
+      it "should not update the video entry" do
+        Video.last.title.should == "Test"
+        Video.last.description.should == "test"
+      end
+
+      it "should render the new template" do
+        response.should render_template :edit
+      end
+    end
   end
 
   describe "DELETE destroy" do
+    let(:user) { Fabricate(:user, admin: true) }
+    let(:video) { Fabricate(:video, title: "Test", description: "test") }
+    let(:category) { Fabricate(:category) }
+
+    before(:each) do
+      set_current_user(user)
+      delete :destroy, id: video.id
+    end
+
+    it "should delete the video" do
+      Video.all.count.should == 0
+    end
+
+    it "should redirect to admin_videos_path" do
+      response.should redirect_to admin_videos_path
+    end
+
   end
 end

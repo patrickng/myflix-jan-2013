@@ -12,8 +12,9 @@ gem 'sidekiq'
 gem 'sinatra', require: false
 gem 'slim'
 gem 'newrelic_rpm'
-gem 'foreman'
 gem 'carrierwave'
+gem 'mini_magick'
+gem 'fog'
 
 group :assets do
   gem 'sass-rails',   '~> 3.2.3'
@@ -30,6 +31,7 @@ group :test, :development do
   gem 'pry'
   gem 'pry-nav'
   gem 'launchy'
+  gem 'foreman'
 end
 
 group :development do

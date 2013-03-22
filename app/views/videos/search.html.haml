@@ -4,4 +4,4 @@
     .videos.row
       - @results.each do |result|
         .video.span2
-          = link_to image_tag(result.small_cover_url), video_path(result)
+          = link_to image_tag(result.small_cover), video_path(result)

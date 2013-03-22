@@ -1,2 +1,1 @@
-web: bundle exec unicorn -p $PORT -E $RACK_ENV -c ./config/unicorn.rb
-devlog: tail -f log/development.log
+web: bundle exec unicorn -c ./config/unicorn.rb -p $PORT -E $RACK_ENV
