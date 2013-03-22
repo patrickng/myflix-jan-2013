@@ -9,7 +9,7 @@
           %strong=raw "Average Rating: #{@average_rating}"
         %p= @video.description
         .actions
-          %a.btn.btn-primary(href="") Watch Now
+          = link_to "Watch Now", @video.url, class: "btn btn-primary"
           = link_to "+ My Queue", my_queue_path(@queue, video_id: @video.id), method: 'post', class: "btn" unless current_user.has_in_queue?(@video)
 
 %section.reviews.container

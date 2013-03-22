@@ -27,7 +27,7 @@
                     %td
                       = link_to item.video.title, item.video
                     %td
-                      = button_to "Play", nil, class: "btn"
+                      = link_to "Play", item.video.url, class: "btn"
                     %td
                       = select_tag "queue_items[#{item.id}][rating]", options_for_select(5.downto(1).map { |n| ["#{pluralize(n, "star", "stars")}", n] }, item.user_rating), { include_blank: '' }
                     %td
