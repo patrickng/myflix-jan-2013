@@ -2,7 +2,7 @@
   .container
     .row
       .span10.offset1
-        = bootstrap_form_for @video, html: { class: 'form-horizontal' } do |f|
+        = bootstrap_form_for [:admin, @video], html: { class: 'form-horizontal' } do |f|
           %ul.nav.nav-tabs
             %li
               %a(href="/ui/admin_views_payments") Recent Payments
@@ -10,7 +10,10 @@
               = link_to "Add a New Video", new_admin_video_path
           %fieldset
             = f.text_field :title
-            = f.collection_select :id, Category.all, :id, :name, label: "Category"
+            .control-group
+              = f.label :category, class: "control-label"
+              .controls
+                = collection_select :category, :id, Category.all, :id, :name
             = f.text_area :description, rows: 8, class: 'span6'
             = f.file_field :large_cover_img, label: "Large Cover"
             = f.file_field :small_cover_img, label: "Small Cover"
