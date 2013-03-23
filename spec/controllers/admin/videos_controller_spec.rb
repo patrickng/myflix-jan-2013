@@ -81,23 +81,24 @@ describe Admin::VideosController do
   describe "POST create" do
     context "admin" do
       let(:user) { Fabricate(:user, admin: true) }
-      let(:category) { Fabricate(:category, name: "Test Category") }
+      let(:category1) { Fabricate(:category, name: "Test Category") }
+      let(:category2) { Fabricate(:category, name: "Test Category") }
 
       before(:each) do
         set_current_user(user)
       end
 
       it "creates the video successfully" do
-        post :create, category: { id: category.id }, video: { title: "Test Video", description: "Just a test video entry" }
+        post :create, video: { title: "Test Video", description: "Just a test video entry", category_ids: [category1.id, category2.id] }
 
         Video.last.title.should == "Test Video"
         Video.last.description.should == "Just a test video entry"
-        Video.last.categories.should == [category]
+        Video.last.categories.should == [category1, category2]
         response.should redirect_to video_path(Video.last)
       end
 
       it "fails to create the video" do
-        post :create, category: { id: category.id }, video: { title: "", description: "" }
+        post :create, video: { title: "", description: "", category_ids: [category1.id, category2.id] }
 
         Video.all.count.should == 0
         response.should render_template :new
@@ -106,11 +107,12 @@ describe Admin::VideosController do
 
     context "non-admin" do
       let(:user) { Fabricate(:user) }
-      let(:category) { Fabricate(:category, name: "Test Category") }
+      let(:category1) { Fabricate(:category, name: "Test Category") }
+      let(:category2) { Fabricate(:category, name: "Test Category") }
 
       before(:each) do
         set_current_user(user)
-        post :create, category: { id: category.id }, video: { title: "Test Video", description: "Just a test video entry" }
+        post :create, video: { title: "Test Video", description: "Just a test video entry", category_ids: [category1, category2] }
       end
 
       it "does not create the video" do
@@ -169,7 +171,8 @@ describe Admin::VideosController do
     context "admin" do
       let(:user) { Fabricate(:user, admin: true) }
       let(:video) { Fabricate(:video, title: "Test", description: "test") }
-      let(:category) { Fabricate(:category) }
+      let(:category1) { Fabricate(:category) }
+      let(:category2) { Fabricate(:category) }
 
       before(:each) do
         set_current_user(user)
@@ -177,7 +180,7 @@ describe Admin::VideosController do
 
       context "successful update" do
         before(:each) do
-          put :update, id: video.id, category: { id: category.id }, video: { title: "Test Video", description: "Just a test video entry" }
+          put :update, id: video.id, video: { title: "Test Video", description: "Just a test video entry", category_ids: [category1, category2] }
         end
 
         it "should update the video entry" do
@@ -190,13 +193,13 @@ describe Admin::VideosController do
         end
 
         it "should redirect to @video" do
-          response.should redirect_to video_path(Video.last)
+          response.should redirect_to admin_videos_path
         end
       end
 
       context "unsuccessful update" do
         before(:each) do
-          put :update, id: video.id, category: { id: category.id }, video: { title: "", description: "" }
+          put :update, id: video.id, video: { title: "", description: "", category_ids: [category1, category2] }
         end
 
         it "should not update the video entry" do
@@ -213,11 +216,12 @@ describe Admin::VideosController do
     context "non-admin" do
       let(:user) { Fabricate(:user) }
       let(:video) { Fabricate(:video, title: "Test", description: "test") }
-      let(:category) { Fabricate(:category) }
+      let(:category1) { Fabricate(:category) }
+      let(:category2) { Fabricate(:category) }
 
       before(:each) do
         set_current_user(user)
-        put :update, id: video.id, category: { id: category.id }, video: { title: "Test Video", description: "Just a test video entry" }
+        put :update, id: video.id, video: { title: "Test Video", description: "Just a test video entry", category_ids: [category1, category2] }
       end
 
       it "should not update the video" do

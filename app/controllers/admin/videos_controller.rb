@@ -23,7 +23,7 @@ class Admin::VideosController < AdminController
   def update
     @video = Video.find(params[:id])
     if @video.update_attributes(params[:video])
-      redirect_to @video, flash: { success: "Video updated!" }
+      redirect_to admin_videos_path, flash: { success: "Video updated!" }
     else
       render :edit
     end
