@@ -9,7 +9,6 @@ class Admin::VideosController < AdminController
 
   def create
     @video = Video.new(params[:video])
-    @video.categories << Category.find(params[:category][:id])
     if @video.save
       redirect_to @video, flash: { success: "Video added successfully!" }
     else
@@ -23,8 +22,6 @@ class Admin::VideosController < AdminController
 
   def update
     @video = Video.find(params[:id])
-    @video.categories = []
-    @video.categories << Category.find(params[:category][:id])
     if @video.update_attributes(params[:video])
       redirect_to @video, flash: { success: "Video updated!" }
     else
