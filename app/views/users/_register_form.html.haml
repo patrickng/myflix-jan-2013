@@ -12,10 +12,21 @@
     = f.text_field :full_name, class: "span3"
     = f.email_field :email_address, class: "span3"
     = f.password_field :password, class: "span3"
-  
-  %fieldset.actions.control-group
-    .controls
-      %script(src="https://checkout.stripe.com/v2/checkout.js" class="stripe-button" data-key="pk_test_Zm2UtxGH1gE4m7cjRDPqWTcl" data-amount="2000" data-name="MyFlix")
+  %fieldset.credit_card
+    %span.payments-error
+    .control-group
+      %label.control-label Credit Card Number
+      .controls
+        %input.span3.card-number(type="text")
+    .control-group
+      %label.control-label Security Code
+      .controls
+        %input.span1.card-cvc(type="text")
+    .control-group
+      %label.control-label Expiration
+      .controls
+        = select_month(Date.today, { add_month_numbers: true }, name: nil, class: 'span2 card-expiry-month')
+        = select_year(Date.today.year, { start_year: Date.today.year, end_year: Date.today.year + 4 }, name: nil, class: 'span1 card-expiry-year')
   %fieldset.actions.control-group
     .controls
       = f.secondary 'Sign Up'
