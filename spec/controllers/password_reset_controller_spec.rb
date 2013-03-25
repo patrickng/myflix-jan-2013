@@ -115,6 +115,7 @@ describe PasswordResetController do
       end
 
       it "should change the password" do
+        User.find_by_password_reset_token(user.password_reset_token).authenticate("test").should be_true
         user.authenticate("test").should be_true
       end
 
