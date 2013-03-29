@@ -9,19 +9,19 @@
     %h1 Register
   %fieldset
     = f.alert_message "Please check your input below."
-    = f.text_field :full_name, class: "span3"
-    = f.email_field :email_address, class: "span3"
+    = f.text_field :full_name, label: "Full Name", class: "span3"
+    = f.email_field :email_address, label: "Email Address", class: "span3"
     = f.password_field :password, class: "span3"
   %fieldset.credit_card
     %span.payments-error
     .control-group
-      %label.control-label Credit Card Number
+      %label.control-label{ for: "card-number" } Credit Card Number
       .controls
-        %input.span3.card-number(type="text")
+        %input.span3.card-number#card-number(type="text")
     .control-group
-      %label.control-label Security Code
+      %label.control-label{ for: "card-cvc" } Security Code
       .controls
-        %input.span1.card-cvc(type="text")
+        %input.span1.card-cvc#card-cvc(type="text")
     .control-group
       %label.control-label Expiration
       .controls

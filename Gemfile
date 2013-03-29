@@ -33,6 +33,7 @@ group :test, :development do
   gem 'pry-nav'
   gem 'launchy'
   gem 'foreman'
+  gem 'database_cleaner'
 end
 
 group :development do
@@ -43,6 +44,7 @@ end
 
 group :test do
   gem 'capybara'
+  gem 'capybara-webkit'
 end
 
 group :production do
