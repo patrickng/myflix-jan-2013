@@ -13,6 +13,9 @@ Myflix::Application.routes.draw do
   post '/people/:id/follow', to: 'following_relationships#create', as: 'follow'
   delete '/people/:id/unfollow', to: 'following_relationships#destroy', as: 'unfollow'
 
+
+  resources :payments, only: [:new, :create]
+
   get 'register', to: 'users#new'
   get 'register/:invitation_token', to: 'users#new', as: 'register_with_invite'
   resources :users, only: [:create, :show]
