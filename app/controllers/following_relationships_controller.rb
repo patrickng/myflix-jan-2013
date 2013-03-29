@@ -1,4 +1,4 @@
-class FollowingRelationshipsController < ApplicationController
+class FollowingRelationshipsController < AuthenticatedController
   def index
     @followed_users = current_user.followed_users
   end

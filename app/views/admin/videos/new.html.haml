@@ -1,0 +1,27 @@
+%section.admin_add_video
+  .container
+    .row
+      .span10.offset1
+        = bootstrap_form_for [:admin, @video], html: { multipart: true, class: 'form-horizontal' } do |f|
+          %ul.nav.nav-tabs
+            %li
+              %a(href="/ui/admin_views_payments") Recent Payments
+            %li.active
+              = link_to "Add a New Video", new_admin_video_path
+          %fieldset
+            = f.text_field :title
+            .control-group
+              = f.label :category, class: "control-label"
+              .controls{id: 'categories'}
+                - hidden_field_tag "video[category_ids][]", nil
+                - Category.all.each do |category|
+                  = check_box_tag 'video[category_ids][]', category.id, @video.category_ids.include?(category.id), id: dom_id(category)
+                  = label_tag dom_id(category), category.name
+            = f.text_area :description, rows: 8, class: 'span6'
+            = f.file_field :large_cover, label: "Large Cover"
+            = f.file_field :small_cover, label: "Small Cover"
+            = f.text_field :url, label: "Video Link"
+
+          %fieldset.actions.control-group
+            .controls
+              = f.secondary 'Add Video'

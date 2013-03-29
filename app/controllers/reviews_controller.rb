@@ -1,6 +1,4 @@
-class ReviewsController < ApplicationController
-  before_filter :require_user, only: [:create]
-
+class ReviewsController < AuthenticatedController
   def create
     video = Video.find(params[:video_id])
     review = video.reviews.create(params[:review].merge!(user_id: current_user.id))

@@ -1,0 +1,18 @@
+%section.my_queue.container
+  .row
+    .span10.offset1
+      %article
+        %header
+          %h2 Video Administration
+          %table.table
+            %thead
+              %tr
+                %th{ style: "text-align: left" }(width="80%") Video Title
+                %th(width="20%") Action
+            %tbody
+              - @videos.each do |video|
+                %tr
+                  %td{ style: "text-align: left" }
+                    = link_to video.title, video_path(video)
+                  %td
+                    %p #{link_to "Edit", edit_admin_video_path(video)} | #{link_to "Delete", video, method: "delete" }

@@ -19,6 +19,9 @@
           %ul.dropdown-menu(role="menu" aria-labelledby="dlabel")
             %li
               %a(href="#") Account
+              - if current_user.admin?
+                = link_to "Add Video", new_admin_video_path
+                = link_to "Video Administration", admin_videos_path
               = link_to "Invite", invite_path
               %a(href="#") Plan and Billing
               = link_to "Logout", logout_path

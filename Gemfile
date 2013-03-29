@@ -12,7 +12,9 @@ gem 'sidekiq'
 gem 'sinatra', require: false
 gem 'slim'
 gem 'newrelic_rpm'
-gem 'foreman'
+gem 'carrierwave'
+gem 'mini_magick'
+gem 'fog'
 
 group :assets do
   gem 'sass-rails',   '~> 3.2.3'
@@ -23,12 +25,13 @@ end
 group :test, :development do
   gem 'rspec'
   gem 'rspec-rails'
-  gem 'shoulda-matchers', github: "thoughtbot/shoulda-matchers", branch: "dc-bourne-dependency"
+  gem 'shoulda-matchers', github: "thoughtbot/shoulda-matchers"
   gem 'fabrication'
   gem 'faker'
   gem 'pry'
   gem 'pry-nav'
   gem 'launchy'
+  gem 'foreman'
 end
 
 group :development do

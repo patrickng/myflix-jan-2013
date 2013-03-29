@@ -24,5 +24,6 @@ module Myflix
       g.template_engine :haml
     end
     config.autoload_paths << "#{Rails.root}/lib"
+    config.autoload_paths << "#{Rails.root}/app/uploaders"
   end
 end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130306000311) do
+ActiveRecord::Schema.define(:version => 20130322233515) do
 
   create_table "categories", :force => true do |t|
     t.string   "name"
@@ -71,21 +71,23 @@ ActiveRecord::Schema.define(:version => 20130306000311) do
     t.string   "full_name"
     t.string   "email_address"
     t.string   "password_digest"
-    t.datetime "created_at",             :null => false
-    t.datetime "updated_at",             :null => false
+    t.datetime "created_at",                                :null => false
+    t.datetime "updated_at",                                :null => false
     t.string   "password_reset_token"
     t.datetime "password_reset_sent_at"
     t.integer  "invitation_id"
     t.integer  "invitation_limit"
+    t.boolean  "admin",                  :default => false
   end
 
   create_table "videos", :force => true do |t|
     t.string   "title"
     t.text     "description"
-    t.string   "small_cover_url"
-    t.string   "large_cover_url"
-    t.datetime "created_at",      :null => false
-    t.datetime "updated_at",      :null => false
+    t.string   "small_cover"
+    t.string   "large_cover"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+    t.string   "url"
   end
 
 end

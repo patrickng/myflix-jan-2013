@@ -129,7 +129,5 @@ describe UsersController do
         last_email.body.should include('Welcome to MyFlix!')
       end
     end
-
-    
   end
 end

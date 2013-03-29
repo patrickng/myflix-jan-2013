@@ -1,4 +1,4 @@
 = @category.name
 %br
 - @category.videos.each do |video|
-  = link_to image_tag(video.small_cover_url), video_path(video)
+  = link_to image_tag(video.small_cover), video_path(video)

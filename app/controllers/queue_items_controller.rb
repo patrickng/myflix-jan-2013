@@ -1,6 +1,4 @@
-class QueueItemsController < ApplicationController
-  before_filter :require_user
-
+class QueueItemsController < AuthenticatedController
   def index
     @queue_items = current_user.queue_items.order('position ASC')
   end
