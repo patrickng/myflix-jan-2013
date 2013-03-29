@@ -17,25 +17,23 @@ class UsersController < AuthenticatedController
   def create
     @user = User.new(params[:user])
 
-    Stripe.api_key = "sk_test_3VfKfliIRsZ6JebIedsMzXUG"
-
     token = params[:stripeToken]
+    charge = StripeGateway::Charge.create(amount: 999, card: token)
 
-    begin
-      charge = Stripe::Charge.create(:amount => 999, :currency => "usd", :card => token)
+    if charge.successful?
       flash[:success] = "Thank you for your payment."
       if @user.save
-        UserMailer.delay.welcome_email(@user.id)
+      UserMailer.delay.welcome_email(@user.id)
         if @user.invitation
           @user.follow!(@user.invitation.sender)
           @user.invitation.sender.follow!(@user)
         end
-        redirect_to login_path, flash: { notice: "You have successfully signed up. Please sign in."}
+        redirect_to login_path, flash: { notice: "You have successfully signed up. Please sign in." }
       else
         render 'new'
       end
-    rescue Stripe::CardError => e
-      flash[:error] = e.message
+    else
+      flash[:error] = charge.error_message
       render 'new'
     end
   end
