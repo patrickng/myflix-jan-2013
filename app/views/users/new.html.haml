@@ -1,7 +1,4 @@
 %section.register.container
   .row
     .span10.offset1
-      - if params[:invitation_token]
-        = render 'invite_form'
-      - else
-        = render 'register_form'
+      = render 'register_form'

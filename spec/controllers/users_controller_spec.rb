@@ -61,7 +61,6 @@ describe UsersController do
 
     context "user is not saved" do
       before do
-        StripeGateway::Charge.stub(:create).and_return(nil)
         post :create, token: "123", user: { email_address: "", full_name: "", password: "" }
       end
 
@@ -74,9 +73,7 @@ describe UsersController do
       end
 
       it "does not charge the user" do
-        StripeGateway::Charge.stub(:new).and_return(nil)
-        charge = StripeGateway::Charge.new
-        charge.should be_nil
+        StripeGateway::Charge.should_not_receive(:create)
       end
     end
 

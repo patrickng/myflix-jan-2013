@@ -9,8 +9,13 @@
     %h1 Register
   %fieldset
     = f.alert_message "Please check your input below."
-    = f.text_field :full_name, label: "Full Name", class: "span3"
-    = f.email_field :email_address, label: "Email Address", class: "span3"
+    - if params[:invitation_token]
+      = f.hidden_field :invitation_token
+      = f.text_field :full_name, label: "Full Name", class: "span3", value: @invitation.recipient_full_name
+      = f.email_field :email_address, label: "Email Address", class: "span3", value: @invitation.recipient_email_address
+    - else
+      = f.text_field :full_name, label: "Full Name", class: "span3"
+      = f.email_field :email_address, label: "Email Address", class: "span3"
     = f.password_field :password, class: "span3"
   %fieldset.credit_card
     %span.payments-error
