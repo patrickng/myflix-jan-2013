@@ -49,7 +49,7 @@ end
 
 group :production do
   gem 'pg'
-  gem 'sentry-raven', github: "https://github.com/getsentry/raven-ruby.git"
+  gem 'sentry-raven', github: "getsentry/raven-ruby"
 end
 
 gem 'jquery-rails'
