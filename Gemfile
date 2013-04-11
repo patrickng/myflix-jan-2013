@@ -45,7 +45,7 @@ end
 
 group :test do
   gem 'capybara'
-  gem 'capybara-webkit'
+  gem 'capybara-webkit', github: "thoughtbot/capybara-webkit"
 end
 
 group :production do

@@ -9,6 +9,14 @@ GIT
       uuidtools
 
 GIT
+  remote: git://github.com/thoughtbot/capybara-webkit.git
+  revision: 0abc7e139f902e2ca1fcd2c145f688bb321f5cbe
+  specs:
+    capybara-webkit (0.14.1)
+      capybara (~> 2.0, >= 2.0.2)
+      json
+
+GIT
   remote: git://github.com/thoughtbot/shoulda-matchers.git
   revision: cf848e6d78e716ed1e4b9b1e4e0e959bd790ea4a
   specs:
@@ -61,9 +69,6 @@ GEM
       rack (>= 1.0.0)
       rack-test (>= 0.5.4)
       xpath (~> 2.0)
-    capybara-webkit (0.14.2)
-      capybara (~> 2.0, >= 2.0.2)
-      json
     carrierwave (0.8.0)
       activemodel (>= 3.2.0)
       activesupport (>= 3.2.0)
@@ -261,7 +266,7 @@ DEPENDENCIES
   bootstrap-sass
   bootstrap_form
   capybara
-  capybara-webkit
+  capybara-webkit!
   carrierwave
   coffee-rails (~> 3.2.1)
   database_cleaner
