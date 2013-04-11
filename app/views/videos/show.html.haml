@@ -6,7 +6,8 @@
       .video_info.span3
         %h3= @video.title
         %span 
-          %strong=raw "Average Rating: #{@average_rating}"
+          %strong Average Rating:
+          = @video.display_rating
         %p= @video.description
         .actions
           = link_to "Watch Now", @video.url, class: "btn btn-primary"

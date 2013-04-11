@@ -4,7 +4,7 @@ class VideosController < AuthenticatedController
   end
 
   def show
-    @video = Video.find(params[:id])
+    @video = VideoDecorator.find(params[:id])
     @reviews = @video.reviews.order('created_at DESC')
     @review = Review.new
   end

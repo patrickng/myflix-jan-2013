@@ -16,6 +16,7 @@ gem 'carrierwave'
 gem 'mini_magick'
 gem 'fog'
 gem 'stripe'
+gem 'draper'
 
 group :assets do
   gem 'sass-rails',   '~> 3.2.3'
