@@ -84,11 +84,6 @@ describe UsersController do
         StripeGateway::Charge.stub(:create).and_return(charge)
       end
 
-      it "sets flash[:success]" do
-        post :create, token: "123", user: { email_address: "test@test.com", full_name: "test tester", password: "test" }
-        flash[:success].should == "Thank you for your payment."
-      end
-
       context "user is saved" do
         before(:each) do
           post :create, token: "123", user: { email_address: "test@test.com", full_name: "test tester", password: "test" }

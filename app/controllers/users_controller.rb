@@ -16,25 +16,16 @@ class UsersController < AuthenticatedController
 
   def create
     @user = User.new(params[:user])
-
     token = params[:stripeToken]
-    if @user.valid?
-      charge = StripeGateway::Charge.create(amount: 999, card: token)
+    result = UserRegistration.new(@user).process(@user.invitation, token)
 
-      if charge.successful?
-        flash[:success] = "Thank you for your payment."
-        if @user.save
-          UserRegistration.new(@user, @user.invitation).process_registration
-          redirect_to login_path, flash: { notice: "You have successfully signed up. Please sign in." }
-        else
-          render 'new'
-        end
-      else
-        flash[:error] = charge.error_message
-        render 'new'
-      end
+    if result.invalid_user?
+      render :new
+    elsif result.successful?
+      redirect_to login_path, flash: { notice: "You have successfully signed up. Please sign in." }
     else
-      render 'new'
+      flash[:error] = result.stripe_error_message
+      render :new
     end
   end
 
