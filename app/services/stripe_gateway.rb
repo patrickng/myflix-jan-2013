@@ -1,5 +1,5 @@
 module StripeGateway
-  class Charge
+  class Customer
     attr_reader :response, :status
 
     def initialize(response, status)
@@ -10,14 +10,14 @@ module StripeGateway
     def self.create(options = {})
       StripeGateway.set_api_key
       begin
-        response = Stripe::Charge.create(amount: options[:amount], currency: 'usd', card: options[:card])
+        response = Stripe::Customer.create(description: options[:email_address], plan: options[:plan], card: options[:card])
         new(response, :success)
       rescue Stripe::CardError => e
         new(e, :error)
       end
     end
 
-    def successful?
+    def subscribed?
       status == :success
     end
 

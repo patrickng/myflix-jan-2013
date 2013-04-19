@@ -15,6 +15,8 @@ class User < ActiveRecord::Base
   has_many :sent_invitations, class_name: "Invitation", foreign_key: "sender_id", dependent: :destroy
   belongs_to :invitation
 
+  has_many :payments
+
   def has_in_queue?(video)
     queue_items.map(&:video).include?(video)
   end
