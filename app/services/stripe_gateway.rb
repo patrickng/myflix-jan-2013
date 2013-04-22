@@ -10,7 +10,7 @@ module StripeGateway
     def self.create(options = {})
       StripeGateway.set_api_key
       begin
-        response = Stripe::Customer.create(description: options[:email_address], plan: options[:plan], card: options[:card])
+        response = Stripe::Customer.create(email: options[:email_address], plan: options[:plan], card: options[:card])
         new(response, :success)
       rescue Stripe::CardError => e
         new(e, :error)

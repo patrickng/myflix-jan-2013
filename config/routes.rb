@@ -5,6 +5,8 @@ Myflix::Application.routes.draw do
   root to: 'static#index'
   mount Sidekiq::Web, at: '/sidekiq'
 
+  mount StripeEvent::Engine => '/payments'
+
   get 'home', to: 'videos#index'
   get 'login', to: 'sessions#new'
   post 'login', to: 'sessions#create', as: 'login'
@@ -13,15 +15,13 @@ Myflix::Application.routes.draw do
   post '/people/:id/follow', to: 'following_relationships#create', as: 'follow'
   delete '/people/:id/unfollow', to: 'following_relationships#destroy', as: 'unfollow'
 
-
-  resources :payments, only: [:new, :create]
-
   get 'register', to: 'users#new'
   get 'register/:invitation_token', to: 'users#new', as: 'register_with_invite'
   resources :users, only: [:create, :show]
 
   namespace :admin do
     resources :videos, except: [:show]
+    resources :payments, only: [:index]
   end
 
   get 'password_reset', to: 'password_reset#index'

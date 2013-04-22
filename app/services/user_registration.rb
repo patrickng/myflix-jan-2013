@@ -7,16 +7,15 @@ class UserRegistration
 
   def process(invitation, token)
     if user.valid?
-      customer = StripeGateway::Customer.create(email_address: 999, plan: "myflix", card: token)
+      customer = StripeGateway::Customer.create(email_address: user.email_address, plan: "myflix-unlimited", card: token)
 
       if customer.subscribed?
         user.save
-        Payment.create(user_id: user.id, customer_token: customer.id, amount: customer.invoices.last.amount, reference_id: customer.invoices.last.id)
         UserMailer.delay.welcome_email(user.id)
         handle_invitation(invitation) if invitation
         UserRegistrationResult.new(true, false, nil)
       else
-        UserRegistrationResult.new(false, false, charge.error_message)
+        UserRegistrationResult.new(false, false, customer.error_message)
       end
     else
       UserRegistrationResult.new(false, true, nil)
