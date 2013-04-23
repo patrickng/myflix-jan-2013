@@ -17,19 +17,24 @@ describe StripeGateway::Customer do
 
   context "with valid credit card" do
     let(:card_number) { "4242424242424242" }
+    let(:plan) { "myflix-unlimited" }
+    let(:email_address) { "test@test.com" }
 
     it "charges the card successfully" do
-      response = StripeGateway::Customer.create(amount: 300, card: token)
-      response.should be_successful
+      response = StripeGateway::Customer.create(email: email_address, plan: plan, card: token)
+      response.should be_subscribed
     end
   end
 
   context "with invalid credit card" do
     let(:card_number) { "4000000000000002" }
-    let(:response) { StripeGateway::Customer.create(amount: 300, card: token) }
+    let(:plan) { "myflix-unlimited" }
+    let(:email_address) { "test@test.com" }
+
+    let(:response) { StripeGateway::Customer.create(email: email_address, plan: plan, card: token) }
 
     it "does not charge the card" do
-      response.should_not be_successful
+      response.should_not be_subscribed
     end
 
     it "contains an error message" do
