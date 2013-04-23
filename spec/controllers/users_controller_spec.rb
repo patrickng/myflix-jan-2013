@@ -73,15 +73,15 @@ describe UsersController do
       end
 
       it "does not charge the user" do
-        StripeGateway::Charge.should_not_receive(:create)
+        StripeGateway::Customer.should_not_receive(:create)
       end
     end
 
     context "with a successful charge" do
       before do
         charge = double('charge')
-        charge.stub(:successful?).and_return(true)
-        StripeGateway::Charge.stub(:create).and_return(charge)
+        charge.stub(:subscribed?).and_return(true)
+        StripeGateway::Customer.stub(:create).and_return(charge)
       end
 
       context "user is saved" do
@@ -147,9 +147,9 @@ describe UsersController do
     context "with an error charge" do
       before do
         charge = double('charge')
-        charge.stub(:successful?).and_return(false)
+        charge.stub(:subscribed?).and_return(false)
         charge.stub(:error_message).and_return('Your card was declined')
-        StripeGateway::Charge.stub(:create).and_return(charge)
+        StripeGateway::Customer.stub(:create).and_return(charge)
         post :create, token: "123", user: { email_address: "test@test.com", full_name: "test tester", password: "test" }
       end
 

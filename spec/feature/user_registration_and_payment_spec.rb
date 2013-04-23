@@ -4,7 +4,6 @@ feature "New user registration and payment", js: true do
   scenario "New user fills out form, credit card accepted" do
     sign_up("Test Example", "test@example.me", "testing")
     pay_with_credit_card("4242424242424242")
-    page.should have_content "Thank you for your payment."
     page.should have_content "You have successfully signed up. Please sign in."
   end
 

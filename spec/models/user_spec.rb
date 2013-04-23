@@ -11,6 +11,16 @@ describe User do
   it { should respond_to(:token_expired?) }
   it { should respond_to(:clear_password_reset_token) }
 
+  describe "associations" do
+    it { should have_many(:reviews) }
+    it { should have_many(:queue_items) }
+    it { should have_many(:followed_users) }
+    it { should have_many(:following_relationships) }
+    it { should have_many(:sent_invitations) }
+    it { should have_many(:payments) }
+    it { should belong_to(:invitation) }
+  end
+
   describe "validations" do
     it { should validate_presence_of(:full_name) }
     it { should validate_presence_of(:email_address) }

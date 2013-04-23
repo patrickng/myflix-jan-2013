@@ -10,8 +10,8 @@ describe Admin::PaymentsController do
       end
 
       it "sets the @payments variable" do
-        payment1 = Fabricate(:payment)
-        payment2 = Fabricate(:payment)
+        payment1 = Fabricate(:payment, user: user)
+        payment2 = Fabricate(:payment, user: user)
 
         get :index
         assigns(:payments).should == [payment1, payment2]

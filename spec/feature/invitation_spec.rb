@@ -14,7 +14,7 @@ feature "User Invitation", js: true do
     click_button "Send Invitation"
 
     # uncomment line below if on a slow computer
-    sleep 4
+    sleep 6
 
     last_email.to.should == ["jane@example.me"]
     last_email.body.encoded.should include("Jane Example")
@@ -28,7 +28,7 @@ feature "User Invitation", js: true do
     pay_with_credit_card("4242424242424242")
 
     # uncomment line below if on a slow computer
-    sleep 4
+    sleep 6
 
     last_email.to.should == ["jane@example.me"]
     last_email.body.encoded.should include("Welcome to MyFlix!")

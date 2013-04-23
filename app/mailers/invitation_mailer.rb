@@ -3,6 +3,6 @@ class InvitationMailer < ActionMailer::Base
 
   def registration_email(invitation_id, register_url)
     @invitation = Invitation.find(invitation_id)
-    mail to: @invitation.recipient_email_address, subject: "Invitation"
+    mail to: @invitation.recipient_email_address, subject: "You've been invited to join MyFlix!"
   end
 end
