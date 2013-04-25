@@ -11,20 +11,23 @@ StripeEvent.setup do
   subscribe 'customer.created' do |event|
     user = User.find_by_email_address(event.data.object.email)
     user.customer_token = event.data.object.id
-    user.save!
+    user.save(validate: false)
     payment = Payment.new
     payment.user_id = user.id
     payment.save!
   end
 
   subscribe 'charge.succeeded' do |event|
-    payment = User.find_by_customer_token(event.data.object.customer).payments.last
+    user = User.find_by_customer_token(event.data.object.customer)
+    payment = user.payments.last
     payment.amount = event.data.object.amount
     payment.reference_id = event.data.object.id
-    payment.save!
+    payment.save
+    UserMailer.delay.payment_successful(user.id)
   end
 
   subscribe 'charge.failed' do |event|
-    
+    user = User.find_by_customer_token(event.data.object.customer)
+    UserMailer.delay.payment_failed(user.id)
   end
 end

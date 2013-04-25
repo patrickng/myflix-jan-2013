@@ -1,0 +1,6 @@
+!!! 5
+%html
+  %body
+    %p Hello #{@user.full_name},
+    %p Thank you for your payment of $#{@user.payments.last.charge_amount}!
+    %p This is your receipt for your MyFlix subscription.
