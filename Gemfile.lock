@@ -1,4 +1,13 @@
 GIT
+  remote: git://github.com/RubyMoney/money-rails.git
+  revision: 9132ab74f8f033407c63765824002664a257a863
+  specs:
+    money-rails (0.8.1)
+      activesupport (>= 3.0)
+      money (~> 5.1.0)
+      railties (>= 3.0)
+
+GIT
   remote: git://github.com/getsentry/raven-ruby.git
   revision: ead49c8d8a6ff99260827f9267bd3bda33a5993e
   specs:
@@ -150,10 +159,6 @@ GEM
       subexec (~> 0.2.1)
     money (5.1.1)
       i18n (~> 0.6.0)
-    money-rails (0.8.0)
-      activesupport (>= 3.0)
-      money (~> 5.1.0)
-      railties (>= 3.0)
     multi_json (1.7.2)
     multipart-post (1.2.0)
     net-scp (1.1.0)
@@ -297,7 +302,7 @@ DEPENDENCIES
   letter_opener
   localtunnel
   mini_magick
-  money-rails
+  money-rails!
   newrelic_rpm
   pg
   pry

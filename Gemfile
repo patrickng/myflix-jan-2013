@@ -19,7 +19,7 @@ gem 'stripe'
 gem 'draper'
 gem 'localtunnel'
 gem 'stripe_event'
-gem 'money-rails'
+gem 'money-rails', github: "RubyMoney/money-rails"
 
 group :assets do
   gem 'sass-rails',   '~> 3.2.3'
