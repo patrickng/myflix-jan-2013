@@ -2,7 +2,12 @@ jQuery(function($) {
   $('#new_user').submit(function(event) {
     var $form = $(this);
     $form.find('.btn').prop('disabled', true);
-    Stripe.createToken($form, stripeResponseHandler);
+    Stripe.createToken({
+      number: $('.card-number').val(),
+      cvc: $('.card-cvc').val(),
+      exp_month: $('.card-expiry-month').val(),
+      exp_year: $('.card-expiry-year').val()
+    }, stripeResponseHandler);
     return false;
   });
 

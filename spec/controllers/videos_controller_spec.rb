@@ -16,16 +16,10 @@ describe VideosController do
       assigns(:categories).should == [comedy, drama]
     end
 
-    # it "renders the index template" do
-    #   get :index
-    #   response.should render_template :index
-    # end
-
-    it_behaves_like "render_template" do
-      let(:action) { get :index }
-      let(:template) { :index }
+    it "renders the index template" do
+      get :index
+      response.should render_template :index
     end
-
 
   end
 
