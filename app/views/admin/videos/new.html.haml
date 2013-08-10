@@ -11,12 +11,8 @@
           %fieldset
             = f.text_field :title
             .control-group
-              = f.label :category, class: "control-label"
-              .controls{id: 'categories'}
-                - hidden_field_tag "video[category_ids][]", nil
-                - Category.all.each do |category|
-                  = check_box_tag 'video[category_ids][]', category.id, @video.category_ids.include?(category.id), id: dom_id(category)
-                  = label_tag dom_id(category), category.name
+              = f.select :category_ids, Category.all.collect {|x| [x.name, x.id]}, {}, :multiple => true
+            
             = f.text_area :description, rows: 8, class: 'span6'
             = f.file_field :large_cover, label: "Large Cover"
             = f.file_field :small_cover, label: "Small Cover"

@@ -20,11 +20,15 @@ class UsersController < AuthenticatedController
     result = UserRegistration.new(@user).process(@user.invitation, token)
 
     if result.invalid_user?
+      flash[:error] = "Invalid user information."
       render :new
     elsif result.successful?
       redirect_to login_path, flash: { notice: "You have successfully signed up. Please sign in." }
-    else
+    elsif result.stripe_error?
       flash[:error] = result.stripe_error_message
+      render :new
+    else
+      flash[:error] = "Invalid card information."
       render :new
     end
   end

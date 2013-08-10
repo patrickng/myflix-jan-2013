@@ -86,10 +86,14 @@ describe UsersController do
 
       context "user is saved" do
         before(:each) do
+          # post :create, token: "123", user: { email_address: test_user.email_address, full_name: test_user.full_name, password: test_user.password }
           post :create, token: "123", user: { email_address: "test@test.com", full_name: "test tester", password: "test" }
         end
 
         it "creates the user successfully" do
+          # User.last.email_address.should == test_user.email_address
+          # User.last.full_name.should == test_user.full_name
+          # User.last.authenticate(test_user.password).should be_true
           User.last.email_address.should == "test@test.com"
           User.last.full_name.should == "test tester"
           User.last.authenticate('test').should be_true

@@ -1,3 +1,5 @@
+require 'pry'
+
 class UserRegistration
   attr_reader :user
 
@@ -8,7 +10,6 @@ class UserRegistration
   def process(invitation, token)
     if user.valid?
       customer = StripeGateway::Customer.create(email_address: user.email_address, plan: "myflix-unlimited", card: token)
-
       if customer.subscribed?
         user.save
         UserMailer.delay.welcome_email(user.id)
@@ -37,5 +38,9 @@ class UserRegistrationResult < Struct.new(:successful, :invalid_user, :stripe_er
 
   def successful?
     self[:successful]
+  end
+
+  def stripe_error?
+    self[:stripe_error_message]
   end
 end
